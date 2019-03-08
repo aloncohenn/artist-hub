@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+header h1 {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 3rem;
+  color: #fff;
+}
+
+header p {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.home-container {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)),
+    url(img/home-background.jpg);
+  background-size: cover;
+  background-position: 15% 0%;
+  background-attachment: scroll;
+  padding: 20px 0;
+  box-shadow: 0 0 10px black;
+  height: 100vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  justify-content: space-between;
+}
+
+.form input {
+  font-size: 1.25rem;
+  width: 250px;
+  padding: 10px;
+  border-radius: 4px;
+  width: 400px;
+  margin-bottom: 2rem;
+}
+
+.form button {
+  font-size: 1.25rem;
+  width: 250px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+
+.form button:hover {
+  background-color: #2f97c1;
+  font-weight: bold;
+  color: white;
+  border-color: #2f97c1;
+}
+
+/* Main */
+
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(200px, auto));
+  grid-auto-rows: minmax(100px, auto);
+  max-width: 1080px;
+  margin: 0 auto;
+  grid-gap: 1em;
+
+  grid-template-areas:
+    'header header header header header'
+    'wiki wiki wiki social social'
+    'youtube youtube youtube youtube youtube'
+    'ticketmaster ticketmaster ticketmaster ticketmaster ticketmaster'
+    'news news news news news';
+}
+
+#header {
+  grid-area: header;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wiki-results {
+  grid-area: wiki;
+}
+
+#youtube-results {
+  grid-area: youtube;
+}
+
+#ticketmaster-results {
+  grid-area: ticketmaster;
+}
+
+#music-links {
+  grid-area: social;
+}
+
+#artist-news {
+  grid-area: news;
+}
+
+#wiki-flex {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+#ticketmaster-flex {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#ticketmaster-logo {
+  justify-self: center;
+  align-self: center;
+}
+
+.hidden {
+  display: none;
+}
+
+ul {
+  list-style: none;
+}
+
+section {
+  border: 2px solid blue;
+}
+
+img {
+  height: 80px;
+}

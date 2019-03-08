@@ -21,6 +21,7 @@
     <div class="home-container">
       <header role="banner">
         <h1>Artist Hub</h1>
+        <p>Enter the name of your favorite music artist!</p>
       </header>
 
       <form role="form" class="form">
@@ -29,31 +30,39 @@
           placeholder="The Beatles, Post Malone, Drake, etc."
         />
         <button type="submit" id="submit-button">Go</button>
-        <a href="#main" class="btn-icon"><i class="fas fa-arrow-circle-down"></i></a>
         </button>
       </form>
     </div>
 
-    <main role="main" class="flex-container hidden" id="main">
+    <main role="main" class="main-grid hidden" id="main">
+      <section id="header"></section>
       <section id="wiki-results">
-        <h3>Wikipedia</h3>
-        <p id="wiki-bio"></p>
-      </section>
-      <section id="artist-news">
-        <h3>Recent News</h3>
-        <ul id="news-ul"></ul>
+        <div id="wiki-flex"></div>
       </section>
       <section id="youtube-results">
-        <h3>YouTube</h3>
-        <ul id="youtube-ul"></ul>
+        <div id="youtube-flex">
+          <img src="img/youtube.png" alt="youtube logo" id="youtube-logo">
+          <ul id="youtube-ul"></ul>
+        </div>
+      </section>
+      <section id="ticketmaster-results">
+        <img src="img/ticketmaster.png" alt="ticketmaster logo" id="ticketmaster-logo">
+        <div id="ticketmaster-flex">
+          <ul id="ticketmaster-ul"></ul>
+        </div>
       </section>
       <section id="music-links">
-        <h3>Music Profiles</h3>
-        <ul>
-          <li id="soundcloud-results"></li>
-          <li id="spotify-results"></li>
-        </ul>
-      </section>
+            <h3>Music Profiles</h3>
+            <ul>
+              <li id="soundcloud-results"></li>
+              <li id="spotify-results"></li>
+            </ul>
+        </section>
+
+        <section id="artist-news">
+          <ul id="js-news-results" class="inside">
+          </ul>
+        </section>
     </main>
 
     <section id="help-page" class="hidden"></section>
