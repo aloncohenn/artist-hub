@@ -74,6 +74,13 @@ form {
 
 /* Main */
 
+#navigation {
+  background-color: lightgray;
+  text-align: center;
+  padding-top: 25px;
+  position: absolute;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(200px, auto));

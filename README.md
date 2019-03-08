@@ -1,14 +1,14 @@
 # Artist Hub
 
-### Live: https://jonespi.github.io/artist-hub/
+### Live: https://cohencodes.github.io/artist-hub/
 
 Artist Hub is an application using multiple API's to generate the following information for an artist:
 
 - Artist Bio
 - Latest News Articles
 - Top YouTube Videos
-- Link to Spotify Profile
-- Link to SoundCloud Profile
+- Upcoming Concerts/Events via TicketMaster
+- Social Media / Music Profiles
 
 Artist Hub uses the following API's:
 
@@ -16,3 +16,5 @@ Artist Hub uses the following API's:
 - News API
 - YouTube API
 - TicketMaster API
+
+**Made by @cohencodes & @jonespi**

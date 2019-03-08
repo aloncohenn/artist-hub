@@ -12,6 +12,16 @@ function watchForm() {
   });
 }
 
+function generateCapitalString(inputVal) {
+  let inputArray = inputVal.split(' ');
+  inputArray = inputArray.map(word => {
+    return word.charAt(0).toUpperCase() + word.substr(1);
+  });
+
+  inputVal = inputArray.join(' ');
+  return inputVal;
+}
+
 function mainHandler(inputVal) {
   generateArtistHeader(inputVal);
   searchWiki(inputVal);
@@ -47,6 +57,7 @@ function formatQueryParams(params) {
 // Wikipedia API
 
 function searchWiki(inputVal) {
+  inputVal = generateCapitalString(inputVal);
   const url = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + inputVal;
   fetch(url)
     .then(response => {
@@ -58,6 +69,11 @@ function searchWiki(inputVal) {
     .then(responseJson => {
       if (responseJson.type === 'disambiguation') {
         inputVal += ' (musician)';
+        disambiguationFetch(inputVal);
+      }
+      if (responseJson.coordinates) {
+        inputVal += ' (band)';
+        console.log('input val: ', inputVal);
         disambiguationFetch(inputVal);
       }
       displayWikiInfo(responseJson);
@@ -131,7 +147,6 @@ function displayYouTube(responseJson) {
 function searchTicketMasterAPI(inputVal) {
   const params = {
     keyword: inputVal,
-    countryCode: 'US',
     size: 5,
     apikey: ticketmasterAPIKey
   };
@@ -188,7 +203,6 @@ function searchNewsAPI(inputVal) {
 }
 
 function filterNews(responseJson, inputVal) {
-  console.log(responseJson);
   let inputArray = inputVal.split(' ');
   inputArray = inputArray.map(word => {
     return word.charAt(0).toUpperCase() + word.substr(1);
@@ -215,6 +229,38 @@ function filterNews(responseJson, inputVal) {
 
 function displayNews(finalResults) {
   let htmlContent = finalResults.map(element => {
+    if (element.urlToImage === null) {
+      if (element.content === null) {
+        return `
+        <li>
+        <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image">
+          <h3>${element.title}</h3>
+          <a href="${element.url}" target="_blank">Go to Article</a>
+          <p>was null</p>
+        </li>
+        `;
+      }
+      return `
+        <li>
+          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image">
+          <h3>${element.title}</h3>
+          <a href="${element.url}" target="_blank">Go to Article</a>
+          <p>${element.content}</p>
+        </li>
+      `;
+    }
+
+    if (element.content === null) {
+      return `
+      <li>
+        <img src="${element.urlToImage}" alt="article image">
+        <h3>${element.title}</h3>
+        <a href="${element.url}" target="_blank">Go to Article</a>
+        <p>was null</p>
+      </li>
+      `;
+    }
+
     return `
     <li>
       <img src="${element.urlToImage}" alt="article image">
@@ -248,6 +294,33 @@ function renderHelpPage() {
   $('#help-page').toggleClass('hidden');
   $('#help-page').html(searchTips);
 }
+
+// Social Media Links
+
+function displaySocialLinks(responseJson) {
+  const twitter = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.twitter[0].url;
+  const instagram = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.instagram[0].url;
+  const facebook = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.facebook[0].url;
+  const itunes = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.itunes[0].url;
+
+  let results = 
+  `<li>
+    <a href="${twitter}">Twitter</a>
+  </li>
+  <li>
+    <a href="${instagram}">Instagram</a>
+  </li>
+  <li>
+    <a href="${facebook}">Facebook</a>
+  </li>
+  <li>
+    <a href="${itunes}">iTunes</a>
+  </li>`
+
+  console.log(results);
+
+  $('#js-links-results').html(results);
+} 
 
 function spotifyLinkGenerator(inputVal) {
   let url = 'https://open.spotify.com/search/results/' + inputVal;
