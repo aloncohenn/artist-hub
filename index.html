@@ -34,40 +34,39 @@
       </form>
     </div>
 
-    <main role="main" class="main-grid hidden" id="main">
+    <main role="main" class="hidden" id="main">
       <nav id="navigation">
-        <a href="#wiki-results">Wikipedia</a>
-        <a href="#youtube-results">Youtube</a>
-        <a href="#ticketmaster-results">Ticketmaster</a>
-        <a href="#music-links">Social Media</a>
-        <a href="#artist-news">News</a>
+        <a id="wiki-results-nav" href="#wiki-results">Wikipedia</a>
+        <a id="youtube-results-nav" href="#youtube-results">Youtube</a>
+        <a id="ticketmaster-results-nav" href="#ticketmaster-results">Ticketmaster</a>
+        <a id="music-links-results-nav" href="#music-links">Social Media</a>
+        <a id="artist-news-nav" href="#artist-news">News</a>
       </nav>
       <section id="header"></section>
       <section id="wiki-results">
         <div id="wiki-flex"></div>
       </section>
-      <section id="youtube-results">
+      <section id="youtube-results" class="hidden nav-item">
         <div id="youtube-flex">
           <img src="img/youtube.png" alt="youtube logo" id="youtube-logo">
           <ul id="youtube-ul"></ul>
         </div>
       </section>
-      <section id="ticketmaster-results">
+      <section id="ticketmaster-results" class="hidden nav-item">
         <img src="img/ticketmaster.png" alt="ticketmaster logo" id="ticketmaster-logo">
         <div id="ticketmaster-flex">
           <ul id="ticketmaster-ul"></ul>
         </div>
       </section>
-      <section id="music-links">
+      <section id="music-links" class="hidden nav-item">
             <h3>Music Profiles</h3>
             <ul>
               <li id="soundcloud-results"></li>
               <li id="spotify-results"></li>
             </ul>
         </section>
-
-        <section id="artist-news">
-          <ul id="js-news-results" class="inside">
+        <section id="artist-news" class="hidden nav-item">
+          <ul id="js-news-results">
           </ul>
         </section>
     </main>

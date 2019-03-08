@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-const googleAPIKey = 'AIzaSyB7QG58vmCbj_15DdBxOswMmfFELWwugbI';
+const googleAPIKey = 'AIzaSyDLAmOKZthLWAjy1LeruXRfTtXaQFrbr6E';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -9,6 +9,7 @@ function watchForm() {
     mainHandler(inputVal);
     $('main').toggleClass('hidden');
     scrollDown();
+    navClicks();
   });
 }
 
@@ -110,7 +111,7 @@ function displayWikiInfo(responseJson) {
 function searchYouTube(inputVal) {
   const params = {
     part: 'snippet',
-    maxResults: 5,
+    maxResults: 3,
     q: inputVal,
     type: 'video',
     key: googleAPIKey
@@ -336,5 +337,21 @@ function soundcloudLinkGenerator(inputVal) {
     `<a href="${url}" target="_blank"><i class="fab fa-soundcloud"></i></a>`
   );
 }
+
+// Main Page Event Listeners
+
+function navClicks() {
+  const navItems = document.querySelectorAll('.nav-item');
+
+  $('#navigation').on('click hover mouseover', 'a', function(event) {
+    event.preventDefault();
+    const currentState = $(event.currentTarget.hash);
+
+    $(currentState).toggleClass('hidden');
+
+    navItems.forEach(item => item.classList.toggle('hidden'));
+ });
+}
+
 
 $(watchForm);

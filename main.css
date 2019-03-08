@@ -74,89 +74,39 @@ form {
 
 /* Main */
 
+#main {
+  height: 100vh;
+}
+
 #navigation {
   background-color: lightgray;
   text-align: center;
-  padding-top: 25px;
-  position: absolute;
+  padding: 25px;
+  width: 100%;
 }
 
-.main-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(200px, auto));
-  grid-auto-rows: minmax(100px, auto);
-  max-width: 1080px;
-  margin: 0 auto;
-  grid-gap: 1em;
-
-  grid-template-areas:
-    'header header header header header'
-    'wiki wiki wiki social social'
-    'youtube youtube youtube youtube youtube'
-    'ticketmaster ticketmaster ticketmaster ticketmaster ticketmaster'
-    'news news news news news';
+#navigation a {
+  border: 2px solid blue;
+  margin: 20px;
+  padding: 10px;
+  font-size: 2rem;
 }
 
 #header {
-  grid-area: header;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#wiki-results {
-  grid-area: wiki;
-}
-
-#youtube-results {
-  grid-area: youtube;
-}
-
-#ticketmaster-results {
-  grid-area: ticketmaster;
-}
-
-#music-links {
-  grid-area: social;
-}
-
-#artist-news {
-  grid-area: news;
-}
-
-#wiki-flex {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-#ticketmaster-flex {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-#ticketmaster-logo {
-  justify-self: center;
-  align-self: center;
+  margin-top: 50px;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .hidden {
   display: none;
 }
 
-ul {
-  list-style: none;
+img {
+  height: 80px;
 }
 
 section {
-  border: 2px solid blue;
-}
-
-img {
-  height: 80px;
+  border: 2px solid red;
+  margin: 10px;
 }
