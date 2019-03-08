@@ -17,4 +17,4 @@ Artist Hub uses the following API's:
 - YouTube API
 - TicketMaster API
 
-**Made by @cohencodes & @jonespi**
+**Made by [@cohencodes](https://github.com/cohencodes) & [@jonespi](https://github.com/jonespi)**
