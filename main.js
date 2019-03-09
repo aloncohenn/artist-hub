@@ -7,7 +7,7 @@ function watchForm() {
     event.preventDefault();
     let inputVal = $('input[type="text"]').val();
     mainHandler(inputVal);
-    $('main').toggleClass('hidden');
+    $('main').removeClass('hidden');
     scrollDown();
     navClicks();
   });
@@ -85,6 +85,7 @@ function disambiguationFetch(inputVal) {
 
   fetch(url)
     .then(response => {
+      console.log(response);
       if (response.ok) {
         return response.json();
       }
@@ -158,7 +159,6 @@ function searchTicketMasterAPI(inputVal) {
     .then(response => response.json())
     .then(responseJson => 
       {
-        console.log(responseJson);
         if (responseJson['_embedded'] === undefined) {
           throw new error(response.statusText);
         } else {
@@ -198,11 +198,12 @@ function renderTicketmasterError() {
   $('#ticketmaster-ul').html(ticketmasterErrorMessage);
 }
 
-function renderSocialLinksError() {
+function renderSocialLinksError(inputVal) {
   const socialLinksError = `
-    <h1>No shows for this search</h1>
+    <h1>No artist for this search</h1>
     <p>Unfortunately, there are no profiles associated with your search.</p>
-  `;
+    <li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>
+    <li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`;
 
   $('#js-links-results').html(socialLinksError);
 }
@@ -320,7 +321,7 @@ function renderHelpPage() {
     <p>Please refer to our <a href="#help-page">Help Tips</a> to improve your results.</p>
   `;
 
-  $('#js-wiki-results').html(wikiErrorMessage);
+  $('#wiki-results').html(wikiErrorMessage);
   $('#help-page').toggleClass('hidden');
   $('#help-page').html(searchTips);
 }
@@ -340,7 +341,8 @@ function checkAttractionsArray(responseJson, inputVal) {
     return word.charAt(0).toUpperCase() + word.substr(1);
   });
   let inputName = inputArray.join(' ');
-
+  console.log(target);
+  console.log(inputName);
   for (let i = 0; i < target.length; i++) {
     if (target[i].externalLinks !== undefined && target[i].name === inputName) { //when there are external links and the name matches the inputval
       target = target[i]; //this is the correct object
@@ -365,20 +367,24 @@ function createSocialArrays(target) {
 }
 
 function combineSocialArrays(networkResults, networkLinks, inputVal) {
-  let html = [];
-  for (let i = 0; i < networkResults.length; i++) {
-    if (networkLinks[i] !== undefined 
-      && networkResults[i] !== 'Youtube' //if all are true, we push this line item to the array 
-      && networkResults[i] !== 'Wiki') {
-      html.push(`
-        <li><a href="${networkLinks[i]}" target="_blank">${networkResults[i]}</a></li>
-      `)
+  if (networkResults.length === 0 || networkLinks.length === 0) {
+    renderSocialLinksError(inputVal);
+  } else {
+    let html = [];
+    for (let i = 0; i < networkResults.length; i++) {
+      if (networkLinks[i] !== undefined 
+        && networkResults[i] !== 'Youtube' //if all are true, we push this line item to the array 
+        && networkResults[i] !== 'Wiki') {
+        html.push(`
+          <li><a href="${networkLinks[i]}" target="_blank">${networkResults[i]}</a></li>
+        `)
+      }
     }
+    html.push(`<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`);
+    html.push(`<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`);
+    html = html.join(''); //join the arrays items together
+    return html;
   }
-  html.push(`<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`);
-  html.push(`<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`);
-  html = html.join(''); //join the arrays items together
-  return html;
 }
 
 // Main Page Event Listeners
