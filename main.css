@@ -12,32 +12,70 @@ html {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  color: #fff;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
 }
 
 header h1 {
+  font-size: 5rem;
   text-align: center;
   margin-top: 100px;
-  font-size: 3rem;
-  color: #fff;
+  color: white;
 }
 
 header p {
   text-align: center;
   margin-top: 25px;
   font-size: 2rem;
+  margin-bottom: 35px;
   color: #fff;
 }
 
+/* .bar {
+  height: 15px;
+  width: 80%;
+  background-color: #60b99a;
+  border-radius: 8px;
+  margin: 0 auto;
+} */
+
 .home-container {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)),
-    url(img/home-background.jpg);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
+    url(img/home-background-main.jpg);
   background-size: cover;
   background-position: 15% 0%;
   background-attachment: scroll;
   padding: 20px 0;
   box-shadow: 0 0 10px black;
   height: 100vh;
+}
+
+ul {
+  list-style: none;
+}
+
+.info {
+  margin-top: 5rem;
+}
+
+.home-flex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.home-flex li {
+  padding: 20px;
+  margin: 5px;
+  letter-spacing: 1.25px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
 }
 
 form {
@@ -61,35 +99,52 @@ form {
   font-size: 1.25rem;
   width: 250px;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 2rem;
 }
 
 .form button:hover {
-  background-color: #2f97c1;
+  border: 1px solid #008000;
+  background-color: #008000;
   font-weight: bold;
   color: white;
-  border-color: #2f97c1;
 }
 
 /* Main */
 
+#main h1 {
+  letter-spacing: 3px;
+}
+
 #main {
   height: 100vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
+    url(img/home-background.jpg);
 }
 
 #navigation {
-  background-color: lightgray;
   text-align: center;
   padding: 25px;
   width: 100%;
 }
 
 #navigation a {
-  border: 2px solid blue;
   margin: 20px;
   padding: 10px;
   font-size: 2rem;
+  text-decoration: none;
+  border: 3px solid #fff;
+  border-radius: 4px;
+}
+
+#navigation a:hover {
+  background-color: #fff;
+  color: black;
+}
+
+#navigation a:active {
+  background-color: #fff;
+  color: black;
 }
 
 #header {
@@ -107,6 +162,6 @@ img {
 }
 
 section {
-  border: 2px solid red;
+  /* border: 2px solid #2f97c1; */
   margin: 10px;
 }

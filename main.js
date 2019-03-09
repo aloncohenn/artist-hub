@@ -155,15 +155,14 @@ function searchTicketMasterAPI(inputVal) {
 
   fetch(url)
     .then(response => response.json())
-    .then(responseJson => 
-      {
-        if (responseJson['_embedded'] === undefined) {
-          throw new error(response.statusText);
-        } else {
-          displayTicketMaster(responseJson);
-          displaySocialLinks(responseJson, inputVal);
-        }
-      })
+    .then(responseJson => {
+      if (responseJson['_embedded'] === undefined) {
+        throw new error(response.statusText);
+      } else {
+        displayTicketMaster(responseJson);
+        displaySocialLinks(responseJson, inputVal);
+      }
+    })
     .catch(error => {
       renderTicketmasterError();
       renderSocialLinksError();
@@ -340,7 +339,8 @@ function checkAttractionsArray(responseJson, inputVal) {
   });
   let inputName = inputArray.join(' ');
   for (let i = 0; i < target.length; i++) {
-    if (target[i].externalLinks !== undefined && target[i].name === inputName) { //when there are external links and the name matches the inputval
+    if (target[i].externalLinks !== undefined && target[i].name === inputName) {
+      //when there are external links and the name matches the inputval
       target = target[i]; //this is the correct object
     }
   }
@@ -350,11 +350,14 @@ function checkAttractionsArray(responseJson, inputVal) {
 function createSocialArrays(target) {
   networkResults = []; //name of the networks
   networkLinks = []; //actual links
-  for (let prop in target.externalLinks) { //loop through object keys
+  for (let prop in target.externalLinks) {
+    //loop through object keys
     if (prop !== 'itunes') {
       networkResults.push(prop.charAt(0).toUpperCase() + prop.substr(1));
     } else {
-      networkResults.push(prop.charAt(0) + prop.charAt(1).toUpperCase() + prop.substr(2));
+      networkResults.push(
+        prop.charAt(0) + prop.charAt(1).toUpperCase() + prop.substr(2)
+      );
     }
     networkLinks.push(target.externalLinks[prop][0].url); //pushes every link to array
   }
@@ -368,16 +371,24 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
   } else {
     let html = [];
     for (let i = 0; i < networkResults.length; i++) {
-      if (networkLinks[i] !== undefined 
-        && networkResults[i] !== 'Youtube' //if all are true, we push this line item to the array 
-        && networkResults[i] !== 'Wiki') {
+      if (
+        networkLinks[i] !== undefined &&
+        networkResults[i] !== 'Youtube' && //if all are true, we push this line item to the array
+        networkResults[i] !== 'Wiki'
+      ) {
         html.push(`
-          <li><a href="${networkLinks[i]}" target="_blank">${networkResults[i]}</a></li>
-        `)
+          <li><a href="${networkLinks[i]}" target="_blank">${
+          networkResults[i]
+        }</a></li>
+        `);
       }
     }
-    html.push(`<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`);
-    html.push(`<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`);
+    html.push(
+      `<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`
+    );
+    html.push(
+      `<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`
+    );
     html = html.join(''); //join the arrays items together
     return html;
   }
@@ -386,47 +397,46 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
-  $("#wiki-results-nav").on("click mouseover hover", function(event) {
-    $("#wiki-results").show();
-    $("#youtube-results").hide();
-    $("#ticketmaster-results").hide();
-    $("#music-links").hide();
-    $("#artist-news").hide();
+  $('#wiki-results-nav').on('click mouseover hover', function(event) {
+    $('#wiki-results').show();
+    $('#youtube-results').hide();
+    $('#ticketmaster-results').hide();
+    $('#music-links').hide();
+    $('#artist-news').hide();
   });
 
-  $("#youtube-results-nav").on("click mouseover hover", function(event) {
-    $("#wiki-results").hide();
-    $("#youtube-results").show();
-    $("#ticketmaster-results").hide();
-    $("#music-links").hide();
-    $("#artist-news").hide();
+  $('#youtube-results-nav').on('click mouseover hover', function(event) {
+    $('#wiki-results').hide();
+    $('#youtube-results').show();
+    $('#ticketmaster-results').hide();
+    $('#music-links').hide();
+    $('#artist-news').hide();
   });
 
-  $("#ticketmaster-results-nav").on("click mouseover hover", function(event) {
-    $("#wiki-results").hide();
-    $("#youtube-results").hide();
-    $("#ticketmaster-results").show();
-    $("#music-links").hide();
-    $("#artist-news").hide();
+  $('#ticketmaster-results-nav').on('click mouseover hover', function(event) {
+    $('#wiki-results').hide();
+    $('#youtube-results').hide();
+    $('#ticketmaster-results').show();
+    $('#music-links').hide();
+    $('#artist-news').hide();
   });
 
-  $("#music-links-nav").on("click mouseover hover", function(event) {
-    $("#wiki-results").hide();
-    $("#youtube-results").hide();
-    $("#ticketmaster-results").hide();
-    $("#music-links").show();
-    $("#artist-news").hide();
+  $('#music-links-nav').on('click mouseover hover', function(event) {
+    $('#wiki-results').hide();
+    $('#youtube-results').hide();
+    $('#ticketmaster-results').hide();
+    $('#music-links').show();
+    $('#artist-news').hide();
   });
 
-  $("#artist-news-nav").on("click mouseover hover", function(event) {
-    $("#wiki-results").hide();
-    $("#youtube-results").hide();
-    $("#ticketmaster-results").hide();
-    $("#music-links").hide();
-    $("#artist-news").show();
-    $("#help-page").hide();
+  $('#artist-news-nav').on('click mouseover hover', function(event) {
+    $('#wiki-results').hide();
+    $('#youtube-results').hide();
+    $('#ticketmaster-results').hide();
+    $('#music-links').hide();
+    $('#artist-news').show();
+    $('#help-page').hide();
   });
 }
-
 
 $(watchForm);

@@ -5,10 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Artist Hub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link
       rel="stylesheet"
@@ -21,6 +18,7 @@
     <div class="home-container">
       <header role="banner">
         <h1>Artist Hub</h1>
+        <!-- <div class="bar"></div> -->
         <p>Enter the name of your favorite music artist!</p>
       </header>
 
@@ -32,15 +30,25 @@
         <button type="submit" id="submit-button">Go</button>
         </button>
       </form>
+
+      <section class="info">
+        <ul class="home-flex">
+          <li>Artist Bio</li>
+          <li>Youtube Videos</li>
+          <li>Ticketmaster Events</li>
+          <li>Social Media Profiles</li>
+          <li>Latest News</li>
+        </ul>
+      </section>
     </div>
 
     <main role="main" class="hidden" id="main">
       <nav id="navigation">
-        <a id="wiki-results-nav" href="#wiki-results">Wikipedia</a>
-        <a id="youtube-results-nav" href="#youtube-results">Youtube</a>
-        <a id="ticketmaster-results-nav" href="#ticketmaster-results">Ticketmaster</a>
-        <a id="music-links-nav" href="#music-links">Social Media</a>
-        <a id="artist-news-nav" href="#artist-news">News</a>
+        <a href="wiki-results" id="wiki-results-nav">Wikipedia</a>
+        <a href="youtube-results" id="youtube-results-nav">Youtube</a>
+        <a href="ticketmaster-results"id="ticketmaster-results-nav">Ticketmaster</a>
+        <a href="music-links" id="music-links-nav">Social Media</a>
+        <a href="artist-news" id="artist-news-nav">News</a>
       </nav>
       <section id="header"></section>
       <section id="wiki-results">
