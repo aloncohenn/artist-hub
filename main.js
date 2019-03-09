@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-const googleAPIKey = 'AIzaSyDLAmOKZthLWAjy1LeruXRfTtXaQFrbr6E';
+const googleAPIKey = 'AIzaSyB-SKgEOTobvCFVQv15z7JL4uLtX427sVE';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -28,8 +28,6 @@ function mainHandler(inputVal) {
   searchWiki(inputVal);
   searchTicketMasterAPI(inputVal);
   searchYouTube(inputVal);
-  spotifyLinkGenerator(inputVal);
-  soundcloudLinkGenerator(inputVal);
   searchNewsAPI(inputVal);
 }
 
@@ -160,9 +158,18 @@ function searchTicketMasterAPI(inputVal) {
     .then(response => response.json())
     .then(responseJson => 
       {
-        displayTicketMaster(responseJson);
-        displaySocialLinks(responseJson);
-      });
+        console.log(responseJson);
+        if (responseJson['_embedded'] === undefined) {
+          throw new error(response.statusText);
+        } else {
+          displayTicketMaster(responseJson);
+          displaySocialLinks(responseJson, inputVal);
+        }
+      })
+    .catch(error => {
+      renderTicketmasterError();
+      renderSocialLinksError();
+    });
 }
 
 function displayTicketMaster(responseJson) {
@@ -180,6 +187,24 @@ function displayTicketMaster(responseJson) {
   });
 
   $('#ticketmaster-ul').html(results);
+}
+
+function renderTicketmasterError() {
+  const ticketmasterErrorMessage = `
+    <h1>No shows for this search</h1>
+    <p>Unfortunately, there are no upcoming shows.</p>
+  `;
+
+  $('#ticketmaster-ul').html(ticketmasterErrorMessage);
+}
+
+function renderSocialLinksError() {
+  const socialLinksError = `
+    <h1>No shows for this search</h1>
+    <p>Unfortunately, there are no profiles associated with your search.</p>
+  `;
+
+  $('#js-links-results').html(socialLinksError);
 }
 
 // News API
@@ -301,18 +326,24 @@ function renderHelpPage() {
 }
 
 // Social Media Links
-function displaySocialLinks(responseJson) {
-  let target = checkAttractionsArray(responseJson); //confirms that the target has externalLinks
+function displaySocialLinks(responseJson, inputVal) {
+  let target = checkAttractionsArray(responseJson, inputVal); //confirms that the target has externalLinks and is the artist name
   createSocialArrays(target); //creates and returns two arrays for links and the network names
-  let results = combineSocialArrays(networkResults, networkLinks); //combines the two arrays to make HTML, filters out YouTube/Wikipedia and dead links.
+  let results = combineSocialArrays(networkResults, networkLinks, inputVal); //combines the two arrays to make HTML, filters out YouTube/Wikipedia and dead links.
   $('#js-links-results').html(results);
 }
 
-function checkAttractionsArray(responseJson) {
+function checkAttractionsArray(responseJson, inputVal) {
   let target = responseJson['_embedded'].events[0]['_embedded'].attractions;
+  let inputArray = inputVal.split(' ');
+  inputArray = inputArray.map(word => {
+    return word.charAt(0).toUpperCase() + word.substr(1);
+  });
+  let inputName = inputArray.join(' ');
+
   for (let i = 0; i < target.length; i++) {
-    if (target[i].externalLinks !== undefined) { //when there are external links,
-      target = target[i]; //this is the target
+    if (target[i].externalLinks !== undefined && target[i].name === inputName) { //when there are external links and the name matches the inputval
+      target = target[i]; //this is the correct object
     }
   } 
   return target;
@@ -322,40 +353,32 @@ function createSocialArrays(target) {
   networkResults = []; //name of the networks
   networkLinks = []; //actual links
   for (let prop in target.externalLinks) { //loop through object keys
-    networkResults.push(prop); //pushes every key to array
+    if (prop !== 'itunes') {
+      networkResults.push(prop.charAt(0).toUpperCase() + prop.substr(1));
+    } else {
+      networkResults.push(prop.charAt(0) + prop.charAt(1).toUpperCase() + prop.substr(2));
+    }
     networkLinks.push(target.externalLinks[prop][0].url); //pushes every link to array
   }
+
   return networkResults, networkLinks;
 }
 
-function combineSocialArrays(networkResults, networkLinks) {
+function combineSocialArrays(networkResults, networkLinks, inputVal) {
   let html = [];
   for (let i = 0; i < networkResults.length; i++) {
     if (networkLinks[i] !== undefined 
-      && networkResults[i] !== 'youtube' //if all are true, we push this line item to the array 
-      && networkResults[i] !== 'wiki') {
+      && networkResults[i] !== 'Youtube' //if all are true, we push this line item to the array 
+      && networkResults[i] !== 'Wiki') {
       html.push(`
         <li><a href="${networkLinks[i]}" target="_blank">${networkResults[i]}</a></li>
       `)
     }
   }
+  html.push(`<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`);
+  html.push(`<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`);
   html = html.join(''); //join the arrays items together
   return html;
-}
-
-function spotifyLinkGenerator(inputVal) {
-  let url = 'https://open.spotify.com/search/results/' + inputVal;
-  $('#spotify-results').html(
-    `<a href="${url}" target="_blank"><i class="fab fa-spotify"></i></a>`
-  );
-}
-
-function soundcloudLinkGenerator(inputVal) {
-  inputVal = inputVal.replace(' ', '');
-  let url = 'https://soundcloud.com/' + inputVal;
-  $('#soundcloud-results').html(
-    `<a href="${url}" target="_blank"><i class="fab fa-soundcloud"></i></a>`
-  );
 }
 
 // Main Page Event Listeners
@@ -399,6 +422,7 @@ function navClicks() {
     $("#ticketmaster-results").hide();
     $("#music-links").hide();
     $("#artist-news").show();
+    $("#help-page").hide();
   });
 }
 
