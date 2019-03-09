@@ -72,7 +72,6 @@ function searchWiki(inputVal) {
       }
       if (responseJson.coordinates) {
         inputVal += ' (band)';
-        console.log('input val: ', inputVal);
         disambiguationFetch(inputVal);
       }
       displayWikiInfo(responseJson);
@@ -85,7 +84,6 @@ function disambiguationFetch(inputVal) {
 
   fetch(url)
     .then(response => {
-      console.log(response);
       if (response.ok) {
         return response.json();
       }
@@ -341,13 +339,11 @@ function checkAttractionsArray(responseJson, inputVal) {
     return word.charAt(0).toUpperCase() + word.substr(1);
   });
   let inputName = inputArray.join(' ');
-  console.log(target);
-  console.log(inputName);
   for (let i = 0; i < target.length; i++) {
     if (target[i].externalLinks !== undefined && target[i].name === inputName) { //when there are external links and the name matches the inputval
       target = target[i]; //this is the correct object
     }
-  } 
+  }
   return target;
 }
 
