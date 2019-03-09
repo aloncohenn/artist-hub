@@ -321,7 +321,7 @@ function renderHelpPage() {
     <p>Please refer to our <a href="#help-page">Help Tips</a> to improve your results.</p>
   `;
 
-  $('#wiki-results').html(wikiErrorMessage);
+  $('#wiki-flex').html(wikiErrorMessage);
   $('#help-page').toggleClass('hidden');
   $('#help-page').html(searchTips);
 }
