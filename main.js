@@ -158,7 +158,11 @@ function searchTicketMasterAPI(inputVal) {
 
   fetch(url)
     .then(response => response.json())
-    .then(responseJson => displayTicketMaster(responseJson));
+    .then(responseJson => 
+      {
+        displayTicketMaster(responseJson);
+        displaySocialLinks(responseJson);
+      });
 }
 
 function displayTicketMaster(responseJson) {
@@ -297,31 +301,47 @@ function renderHelpPage() {
 }
 
 // Social Media Links
-
 function displaySocialLinks(responseJson) {
-  const twitter = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.twitter[0].url;
-  const instagram = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.instagram[0].url;
-  const facebook = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.facebook[0].url;
-  const itunes = responseJson['_embedded'].events[0]['_embedded'].attractions[0].externalLinks.itunes[0].url;
-
-  let results = 
-  `<li>
-    <a href="${twitter}">Twitter</a>
-  </li>
-  <li>
-    <a href="${instagram}">Instagram</a>
-  </li>
-  <li>
-    <a href="${facebook}">Facebook</a>
-  </li>
-  <li>
-    <a href="${itunes}">iTunes</a>
-  </li>`
-
-  console.log(results);
-
+  let target = checkAttractionsArray(responseJson); //confirms that the target has externalLinks
+  createSocialArrays(target); //creates and returns two arrays for links and the network names
+  let results = combineSocialArrays(networkResults, networkLinks); //combines the two arrays to make HTML, filters out YouTube/Wikipedia and dead links.
   $('#js-links-results').html(results);
-} 
+}
+
+function checkAttractionsArray(responseJson) {
+  let target = responseJson['_embedded'].events[0]['_embedded'].attractions;
+  for (let i = 0; i < target.length; i++) {
+    if (target[i].externalLinks !== undefined) { //when there are external links,
+      target = target[i]; //this is the target
+    }
+  } 
+  return target;
+}
+
+function createSocialArrays(target) {
+  networkResults = []; //name of the networks
+  networkLinks = []; //actual links
+  for (let prop in target.externalLinks) { //loop through object keys
+    networkResults.push(prop); //pushes every key to array
+    networkLinks.push(target.externalLinks[prop][0].url); //pushes every link to array
+  }
+  return networkResults, networkLinks;
+}
+
+function combineSocialArrays(networkResults, networkLinks) {
+  let html = [];
+  for (let i = 0; i < networkResults.length; i++) {
+    if (networkLinks[i] !== undefined 
+      && networkResults[i] !== 'youtube' //if all are true, we push this line item to the array 
+      && networkResults[i] !== 'wiki') {
+      html.push(`
+        <li><a href="${networkLinks[i]}" target="_blank">${networkResults[i]}</a></li>
+      `)
+    }
+  }
+  html = html.join(''); //join the arrays items together
+  return html;
+}
 
 function spotifyLinkGenerator(inputVal) {
   let url = 'https://open.spotify.com/search/results/' + inputVal;
