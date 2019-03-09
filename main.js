@@ -341,16 +341,45 @@ function soundcloudLinkGenerator(inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
-  const navItems = document.querySelectorAll('.nav-item');
+  $("#wiki-results-nav").on("click mouseover hover", function(event) {
+    $("#wiki-results").show();
+    $("#youtube-results").hide();
+    $("#ticketmaster-results").hide();
+    $("#music-links").hide();
+    $("#artist-news").hide();
+  });
 
-  $('#navigation').on('click hover mouseover', 'a', function(event) {
-    event.preventDefault();
-    const currentState = $(event.currentTarget.hash);
+  $("#youtube-results-nav").on("click mouseover hover", function(event) {
+    $("#wiki-results").hide();
+    $("#youtube-results").show();
+    $("#ticketmaster-results").hide();
+    $("#music-links").hide();
+    $("#artist-news").hide();
+  });
 
-    $(currentState).toggleClass('hidden');
+  $("#ticketmaster-results-nav").on("click mouseover hover", function(event) {
+    $("#wiki-results").hide();
+    $("#youtube-results").hide();
+    $("#ticketmaster-results").show();
+    $("#music-links").hide();
+    $("#artist-news").hide();
+  });
 
-    navItems.forEach(item => item.classList.toggle('hidden'));
- });
+  $("#music-links-nav").on("click mouseover hover", function(event) {
+    $("#wiki-results").hide();
+    $("#youtube-results").hide();
+    $("#ticketmaster-results").hide();
+    $("#music-links").show();
+    $("#artist-news").hide();
+  });
+
+  $("#artist-news-nav").on("click mouseover hover", function(event) {
+    $("#wiki-results").hide();
+    $("#youtube-results").hide();
+    $("#ticketmaster-results").hide();
+    $("#music-links").hide();
+    $("#artist-news").show();
+  });
 }
 
 
