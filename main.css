@@ -13,7 +13,6 @@ html {
 
 body {
   font-family: 'Raleway', sans-serif;
-  color: #fff;
 }
 
 h1 {
@@ -21,7 +20,7 @@ h1 {
 }
 
 header h1 {
-  font-size: 5rem;
+  font-size: 5.2rem;
   text-align: center;
   color: #fff;
 }
@@ -35,7 +34,7 @@ header p {
 }
 
 .home-container {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)),
     url(img/home-background-main.jpg);
   background-size: cover;
   background-position: 15% 0%;
@@ -50,7 +49,7 @@ ul {
 }
 
 .info {
-  margin-top: 5rem;
+  margin-top: 7rem;
 }
 
 .home-flex {
@@ -98,7 +97,7 @@ form {
 }
 
 .form button:hover {
-  background-color: #a419dc;
+  background-color: #167ff5;
   font-weight: bold;
   color: #fff;
 }
@@ -107,28 +106,22 @@ form {
 
 #main h1 {
   letter-spacing: 2px;
-  margin-bottom: 20px;
 }
 
 #main {
-  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4)),
-    url(img/home-background-main.jpg); */
-  background-size: cover;
-  background-position: 15% 0%;
-  background-attachment: scroll;
-  padding: 20px 0;
-  box-shadow: 0 0 10px black;
   height: 100vh;
+  margin-top: 10px;
 }
 
 #navigation {
-  text-align: center;
-  padding: 25px;
-  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
 }
 
 #navigation a {
-  margin: 20px;
+  margin-bottom: 10px;
   padding: 10px;
   font-size: 2rem;
   text-decoration: none;
@@ -138,7 +131,9 @@ form {
   color: black;
 }
 
-#navigation a:hover {
+#navigation a:hover,
+#navigation a:focus,
+#navigation a:active {
   background-color: #167ff5;
   color: black;
 }
@@ -149,29 +144,20 @@ form {
 }
 
 section {
+  background: #141414;
   color: black;
   border-radius: 8px;
 }
 
-#artist-header-flex {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-}
-
-#artist-header-flex h1 {
-  font-size: 3rem;
-}
-
-/* #artist-header {
-  background-color: #fff;
-  color: black;
+#artist-header {
+  background: #141414;
+  color: #fff;
   font-size: 1.5rem;
   max-width: 960px;
   border-radius: 8px;
-} */
+  margin: 0 auto;
+  text-align: center;
+}
 
 /* Wiki styling */
 
@@ -209,11 +195,11 @@ section {
 #ticketmaster-results,
 #youtube-results {
   max-width: 960px;
+  min-height: 800px;
   margin: 0 auto;
   flex-flow: row wrap;
   justify-content: space-evenly;
   text-align: center;
-  padding: 20px;
 }
 
 #ticketmaster-flex,
@@ -226,13 +212,12 @@ section {
 #ticketmaster-flex li,
 #youtube-flex li {
   width: 33.333333%;
+  margin-bottom: 20px;
 }
 
 #ticketmaster-logo,
 #youtube-logo {
   height: 100px;
-  width: 200px;
-  margin-bottom: 20px;
 }
 
 .flex-image {
@@ -264,6 +249,31 @@ section {
   margin-bottom: 50px;
 }
 
+/* Music Profiles */
+
+#music-links {
+  max-width: 960px;
+  margin: 0 auto;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 20px;
+}
+
+#music-links li {
+  display: inline;
+}
+
+#music-links li a:hover {
+  color: #008000;
+}
+
+#music-links a {
+  font-size: 5rem;
+  color: #fff;
+  margin: 50px;
+}
+
 #red {
   color: #e10406;
 }
@@ -288,17 +298,14 @@ section {
   color: #f5550d;
 }
 
-.activeMenuItem {
-  background-color: #a419dc;
-}
-
 footer {
   position: fixed;
   left: 0px;
   bottom: 0px;
-  height: 30px;
+  height: 40px;
   width: 100%;
-  background: black;
+  background: #141414;
+  color: #fff;
   text-align: center;
 }
 

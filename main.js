@@ -42,10 +42,7 @@ function scrollDown() {
 
 function generateArtistHeader(inputVal) {
   $('#artist-header').html(`
-    <div id="artist-header-flex">
-      <p><span id="red">A</span><span id="orange">r</span><span id="yellow">t</span><span id="green">i</span><span id="blue">s</span><span id="purple">t</span> Hub
-      <h1>${inputVal.toUpperCase()}</h1>
-    </div>
+     <h1>${inputVal.toUpperCase()}</h1>
   `);
 }
 
@@ -220,7 +217,7 @@ function searchNewsAPI(inputVal) {
   const params = {
     q: inputVal,
     language: 'en',
-    pagesize: 20
+    pagesize: 10
   };
 
   const options = {
@@ -382,23 +379,32 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
   } else {
     let html = [];
     for (let i = 0; i < networkResults.length; i++) {
-      if (
+      if (networkResults[i].toLowerCase() === 'homepage') {
+        html.push(`
+          <li><a href="${
+            networkLinks[i]
+          }" target="_blank"><i class="fas fa-globe"></i></i></a></li>
+        `);
+      } else if (
         networkLinks[i] !== undefined &&
-        networkResults[i] !== 'Youtube' && //if all are true, we push this line item to the array
+        networkResults[i] !== 'Youtube' &&
         networkResults[i] !== 'Wiki'
       ) {
         html.push(`
-          <li><a href="${networkLinks[i]}" target="_blank">${
-          networkResults[i]
-        }</a></li>
+          <li><a href="${
+            networkLinks[i]
+          }" target="_blank"><i class="fab fa-${networkResults[
+          i
+        ].toLowerCase()}"></i></a></li>
         `);
       }
     }
+    console.log(html);
     html.push(
-      `<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>`
+      `<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank"><i class="fab fa-spotify"></i></a></li>`
     );
     html.push(
-      `<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`
+      `<li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank"><i class="fab fa-soundcloud"></i></a></li>`
     );
     html = html.join(''); //join the arrays items together
     return html;
@@ -408,8 +414,6 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
-  currentAnchor();
-
   $('#wiki-results-nav').on('click mouseover hover', function(event) {
     $('#wiki-results').show();
     $('#youtube-results').hide();
@@ -451,14 +455,6 @@ function navClicks() {
     $('#artist-news').show();
     $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
-  });
-}
-
-function currentAnchor() {
-  $('#navigation a').each(function() {
-    if (window.location.pathname.indexOf($(this).attr('href')) > -1) {
-      $(this).addClass('activeMenuItem');
-    }
   });
 }
 
