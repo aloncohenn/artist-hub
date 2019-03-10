@@ -136,7 +136,7 @@ function displayYouTube(responseJson) {
         <br>
         <a href="http://youtube.com/watch?v=${
           element.id.videoId
-        }" target="_blank"><i class="fab fa-youtube"></i></a>
+        }" target="_blank" id="youtube-play-button"><i class="fab fa-youtube"></i></a>
         <h4>${element.snippet.title}</h4>
       </li>
       `;
@@ -178,10 +178,10 @@ function displayTicketMaster(responseJson) {
   let results = responseJson['_embedded'].events.map(element => {
     return `
     <li>
-      <h3>${element.name}</h3>
+      <h2>${element.name}</h2>
       <img src="${element.images[0].url}" alt="event image" class="flex-image">
       <br>
-      <a href="${element.url}">Link to event</a>
+      <a href="${element.url}">Event</a>
       <p>${element._embedded.venues[0].city.name}, ${
       element._embedded.venues[0].country.name
     }</p>
@@ -263,52 +263,60 @@ function filterNews(responseJson, inputVal) {
 
 function displayNews(finalResults) {
   let htmlContent = finalResults.map(element => {
-    if (element.urlToImage === null) {
-      if (element.content === null) {
-        return `
-        <li>
-        <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
-          <h3>${element.title}</h3>
-          <a href="${
-            element.url
-          }" target="_blank" class="flex-image">Go to Article</a>
-          <p>was null</p>
-        </li>
-        `;
-      }
-      return `
-        <li>
-          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
-          <h3>${element.title}</h3>
-          <a href="${element.url}" target="_blank">Go to Article</a>
-          <p>${element.content}</p>
-        </li>
-      `;
-    }
-
-    if (element.content === null) {
-      return `
-      <li>
-        <img src="${element.urlToImage}" alt="article image" class="flex-image">
-        <h3>${element.title}</h3>
-        <a href="${element.url}" target="_blank">Go to Article</a>
-        <p>was null</p>
-      </li>
-      `;
-    }
-
     return `
     <li>
-      <img src="${element.urlToImage}" alt="article image" class="flex-image">
       <h3>${element.title}</h3>
-      <a href="${element.url}" target="_blank">Go to Article</a>
-      <p>${element.content}</p>
+      <img src="${element.urlToImage}" alt="article image" class="flex-image">
+      <a href="${element.url}" target="_blank">Article</a>
     </li>
     `;
+    // if (element.urlToImage === null) {
+    //   if (element.content === null) {
+    //     return `
+    //     <li>
+    //     <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
+    //       <h3>${element.title}</h3>
+    //       <a href="${
+    //         element.url
+    //       }" target="_blank" class="flex-image">Go to Article</a>
+    //     </li>
+    //     `;
+    //   }
+    //   return `
+    //     <li>
+    //       <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
+    //       <h3>${element.title}</h3>
+    //       <a href="${element.url}" target="_blank">Go to Article</a>
+    //     </li>
+    //   `;
+    // }
+
+    // if (element.content === null) {
+    //   return `
+    //   <li>
+    //     <img src="${element.urlToImage}" alt="article image" class="flex-image">
+    //     <h3>${element.title}</h3>
+    //     <a href="${element.url}" target="_blank">Go to Article</a>
+    //   </li>
+    //   `;
+    // }
   });
 
   $('#news-flex').html(htmlContent);
 }
+
+// function trimTitle(finalResults) {
+//   let cloneArray = JSON.parse(JSON.stringify(finalResults));
+//   let titleArray = cloneArray.map(element => element['title'].split(' '));
+//   for (let i = 0; i < titleArray.length; i++) {
+//     if (titleArray.length > 8) {
+//       titleArray = titleArray.slice(0, 8);
+//       titleArray = titleArray.join('') + '...';
+//     }
+//   }
+//   console.log('titlearray', titleArray);
+//   return titleArray;
+// }
 
 function renderHelpPage() {
   const searchTips = `
@@ -414,7 +422,7 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 
 function navClicks() {
   $('#wiki-results-nav').on('click mouseover hover', function(event) {
-    $('#wiki-results').show();
+    $('#wiki-results').fadeIn(600);
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
@@ -423,7 +431,7 @@ function navClicks() {
 
   $('#youtube-results-nav').on('click mouseover hover', function(event) {
     $('#wiki-results').hide();
-    $('#youtube-results').show();
+    $('#youtube-results').fadeIn(600);
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
     $('#artist-news').hide();
@@ -432,7 +440,7 @@ function navClicks() {
   $('#ticketmaster-results-nav').on('click mouseover hover', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
-    $('#ticketmaster-results').show();
+    $('#ticketmaster-results').fadeIn(600);
     $('#ticketmaster-results').css('display', 'flex');
     $('#music-links').hide();
     $('#artist-news').hide();
@@ -442,7 +450,7 @@ function navClicks() {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
-    $('#music-links').show();
+    $('#music-links').fadeIn(600);
     $('#artist-news').hide();
   });
 
@@ -451,7 +459,7 @@ function navClicks() {
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
-    $('#artist-news').show();
+    $('#artist-news').fadeIn(600);
     $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
   });
@@ -487,7 +495,7 @@ setInterval(function() {
     'placeholder',
     searchEx[searchEx.push(searchEx.shift()) - 1]
   );
-}, 1500);
+}, 600);
 
 $(window).scroll(function() {
   if ($(this).scrollTop() >= 50) {
