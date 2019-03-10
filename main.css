@@ -34,16 +34,8 @@ header p {
   color: #fff;
 }
 
-/* .bar {
-  height: 15px;
-  width: 80%;
-  background-color: #60b99a;
-  border-radius: 8px;
-  margin: 0 auto;
-} */
-
 .home-container {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4)),
     url(img/home-background-main.jpg);
   background-size: cover;
   background-position: 15% 0%;
@@ -66,6 +58,7 @@ ul {
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: flex-end;
+  background-color: black;
 }
 
 .home-flex li {
@@ -74,7 +67,6 @@ ul {
   letter-spacing: 1.25px;
   font-weight: 700;
   font-size: 1.2rem;
-  color: #fff;
 }
 
 form {
@@ -89,6 +81,7 @@ form {
   font-size: 1.25rem;
   width: 250px;
   padding: 10px;
+  border: 3px solid #a419dc;
   border-radius: 8px;
   width: 400px;
   margin-bottom: 2rem;
@@ -98,13 +91,14 @@ form {
   font-size: 1.25rem;
   width: 250px;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 20px;
   margin-bottom: 2rem;
+  background-color: #a419dc;
+  color: #fff;
 }
 
 .form button:hover {
-  border: 1px solid #008000;
-  background-color: #008000;
+  background-color: #a419dc;
   font-weight: bold;
   color: #fff;
 }
@@ -117,14 +111,14 @@ form {
 }
 
 #main {
-  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
-    url(img/home-background.jpg);
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4)),
+    url(img/home-background-main.jpg); */
   background-size: cover;
   background-position: 15% 0%;
   background-attachment: scroll;
   padding: 20px 0;
-  box-shadow: 0 0 10px black; */
-  background-color: rgb(182, 182, 182);
+  box-shadow: 0 0 10px black;
+  height: 100vh;
 }
 
 #navigation {
@@ -138,14 +132,14 @@ form {
   padding: 10px;
   font-size: 2rem;
   text-decoration: none;
-  border: 3px solid #fff;
+  border: 3px solid black;
   border-radius: 8px;
   text-decoration: none;
-  color: #fff;
+  color: black;
 }
 
 #navigation a:hover {
-  background-color: #fff;
+  background-color: #167ff5;
   color: black;
 }
 
@@ -155,19 +149,29 @@ form {
 }
 
 section {
-  background-color: black;
-  color: #fff;
+  color: black;
   border-radius: 8px;
 }
 
-#artist-header {
-  background-color: rgb(182, 182, 182);
-  text-align: center;
-  font-size: 2rem;
-  max-width: 960px;
-  margin: 10px auto;
-  border-radius: 8px;
+#artist-header-flex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
 }
+
+#artist-header-flex h1 {
+  font-size: 3rem;
+}
+
+/* #artist-header {
+  background-color: #fff;
+  color: black;
+  font-size: 1.5rem;
+  max-width: 960px;
+  border-radius: 8px;
+} */
 
 /* Wiki styling */
 
@@ -260,14 +264,42 @@ section {
   margin-bottom: 50px;
 }
 
+#red {
+  color: #e10406;
+}
+
+#yellow {
+  color: #fcf232;
+}
+
+#green {
+  color: #62e843;
+}
+
+#blue {
+  color: #167ff5;
+}
+
+#purple {
+  color: #a419dc;
+}
+
+#orange {
+  color: #f5550d;
+}
+
+.activeMenuItem {
+  background-color: #a419dc;
+}
+
 footer {
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  font-size: 1.2rem;
-  margin-top: 40px;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 30px;
+  width: 100%;
+  background: black;
+  text-align: center;
 }
 
 .hidden {

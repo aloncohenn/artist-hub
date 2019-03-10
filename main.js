@@ -42,7 +42,10 @@ function scrollDown() {
 
 function generateArtistHeader(inputVal) {
   $('#artist-header').html(`
-    <h1>${inputVal.toUpperCase()}</h1>
+    <div id="artist-header-flex">
+      <p><span id="red">A</span><span id="orange">r</span><span id="yellow">t</span><span id="green">i</span><span id="blue">s</span><span id="purple">t</span> Hub
+      <h1>${inputVal.toUpperCase()}</h1>
+    </div>
   `);
 }
 
@@ -405,6 +408,8 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
+  currentAnchor();
+
   $('#wiki-results-nav').on('click mouseover hover', function(event) {
     $('#wiki-results').show();
     $('#youtube-results').hide();
@@ -446,6 +451,14 @@ function navClicks() {
     $('#artist-news').show();
     $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
+  });
+}
+
+function currentAnchor() {
+  $('#navigation a').each(function() {
+    if (window.location.pathname.indexOf($(this).attr('href')) > -1) {
+      $(this).addClass('activeMenuItem');
+    }
   });
 }
 
