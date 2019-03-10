@@ -29,6 +29,7 @@ function mainHandler(inputVal) {
   searchTicketMasterAPI(inputVal);
   searchYouTube(inputVal);
   searchNewsAPI(inputVal);
+  scrollTop();
 }
 
 function scrollDown() {
@@ -124,8 +125,14 @@ function searchYouTube(inputVal) {
 
   fetch(url)
     .then(response => response.json())
-    .then(responseJson => displayYouTube(responseJson))
-    .catch(error => console.log(error.message));
+    .then(responseJson => {
+      if (responseJson['items'].length === 0) {
+        renderYouTubeError();
+      } else {
+        displayYouTube(responseJson);
+      }
+    })
+    .catch(error => renderYouTubeError());
 }
 
 function displayYouTube(responseJson) {
@@ -143,6 +150,15 @@ function displayYouTube(responseJson) {
   });
 
   $('#youtube-flex').html(results);
+}
+
+function renderYouTubeError() {
+  const youTubeErrorMessage = `
+    <h1>No videos for this search</h1>
+    <p>Unfortunately, there are no videos associated with your search.</p>
+  `;
+
+  $('#youtube-flex').html(youTubeErrorMessage);
 }
 
 // Ticketmaster API
@@ -198,7 +214,7 @@ function renderTicketmasterError() {
     <p>Unfortunately, there are no upcoming shows.</p>
   `;
 
-  $('#ticketmaster-ul').html(ticketmasterErrorMessage);
+  $('#ticketmaster-flex').html(ticketmasterErrorMessage);
 }
 
 function renderSocialLinksError(inputVal) {
@@ -232,8 +248,15 @@ function searchNewsAPI(inputVal) {
 
   fetch(url, options)
     .then(response => response.json())
-    .then(responseJson => filterNews(responseJson, inputVal))
-    .catch(error => console.log(error.message));
+    .then(responseJson => {
+      if (responseJson['totalResults'] === 0) {
+        renderNewsError();
+        throw new error(response.statusText);
+      } else {
+        filterNews(responseJson, inputVal);
+      }
+    })
+    .catch(error => renderNewsError());
 }
 
 function filterNews(responseJson, inputVal) {
@@ -263,6 +286,16 @@ function filterNews(responseJson, inputVal) {
 
 function displayNews(finalResults) {
   let htmlContent = finalResults.map(element => {
+    if (element.urlToImage === null) {
+      return `
+        <li>
+          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
+          <h3>${element.title}</h3>
+          <a href="${element.url}" target="_blank">Go to Article</a>
+        </li>
+      `;
+    }
+
     return `
     <li>
       <h3>${element.title}</h3>
@@ -270,39 +303,22 @@ function displayNews(finalResults) {
       <a href="${element.url}" target="_blank">Article</a>
     </li>
     `;
-    // if (element.urlToImage === null) {
-    //   if (element.content === null) {
-    //     return `
-    //     <li>
-    //     <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
-    //       <h3>${element.title}</h3>
-    //       <a href="${
-    //         element.url
-    //       }" target="_blank" class="flex-image">Go to Article</a>
-    //     </li>
-    //     `;
-    //   }
-    //   return `
-    //     <li>
-    //       <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
-    //       <h3>${element.title}</h3>
-    //       <a href="${element.url}" target="_blank">Go to Article</a>
-    //     </li>
-    //   `;
-    // }
-
-    // if (element.content === null) {
-    //   return `
-    //   <li>
-    //     <img src="${element.urlToImage}" alt="article image" class="flex-image">
-    //     <h3>${element.title}</h3>
-    //     <a href="${element.url}" target="_blank">Go to Article</a>
-    //   </li>
-    //   `;
-    // }
   });
 
+  if (htmlContent.length === 0) {
+    renderNewsError();
+  }
+
   $('#news-flex').html(htmlContent);
+}
+
+function renderNewsError() {
+  const newsError = `
+    <h1>No news articles available for this search</h1>
+    <p>Unfortunately, there are no recent articles available for your search.</p>
+    `;
+
+  $('#news-flex').html(newsError);
 }
 
 // function trimTitle(finalResults) {
@@ -319,24 +335,12 @@ function displayNews(finalResults) {
 // }
 
 function renderHelpPage() {
-  const searchTips = `
-  <h1>Help Page</h1>
-    <h4>Not seeing the results you want? Here are some search tips!</h4>
-    <ul>
-      <li>Capitalize the first letter of each word in your search. (Ex. Instead of <strong>'dua lipa'</strong>, use <strong>'Dua Lipa'</strong>)</li>
-      <li>Add <strong>Musician</strong> or <strong>Band</strong> in parenthesis to the end of your search. (Ex. Instead of <strong>Drake</strong>, use <strong>Drake (musician)</strong>)</li>
-      <li>If you're still not seeing results, please search using Wikipedia and paste the precise page name. (Ex. Drake's Wikipedia link is https://en.wikipedia.org/wiki/<strong>Drake_(musician)</strong>)</li>
-    </ul>
-    `;
-
   const wikiErrorMessage = `
     <h1>No results for this search</h1>
     <p>Please refer to our <a href="#help-page">Help Tips</a> to improve your results.</p>
   `;
 
   $('#wiki-flex').html(wikiErrorMessage);
-  $('#help-page').toggleClass('hidden');
-  $('#help-page').html(searchTips);
 }
 
 // Social Media Links
@@ -421,7 +425,7 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
-  $('#wiki-results-nav').on('click mouseover hover', function(event) {
+  $('#wiki-results-nav').on('click mouseover', function(event) {
     $('#wiki-results').fadeIn(600);
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -429,7 +433,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#youtube-results-nav').on('click mouseover hover', function(event) {
+  $('#youtube-results-nav').on('click mouseover', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').fadeIn(600);
     $('#ticketmaster-results').hide();
@@ -437,7 +441,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#ticketmaster-results-nav').on('click mouseover hover', function(event) {
+  $('#ticketmaster-results-nav').on('click mouseover', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').fadeIn(600);
@@ -446,7 +450,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#music-links-nav').on('click mouseover hover', function(event) {
+  $('#music-links-nav').on('click mouseover', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -454,7 +458,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#artist-news-nav').on('click mouseover hover', function(event) {
+  $('#artist-news-nav').on('click mouseover', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -482,6 +486,7 @@ const searchEx = [
   'Adele',
   'Justin Bieber'
 ];
+
 setInterval(function() {
   $('input#search').click(function() {
     $(this).data('clicked', true);
@@ -497,22 +502,23 @@ setInterval(function() {
   );
 }, 600);
 
-$(window).scroll(function() {
-  if ($(this).scrollTop() >= 50) {
-    // If page is scrolled more than 50px
-    $('#scroll-button').fadeIn(200); // Fade in the arrow
-  } else {
-    $('#scroll-button').fadeOut(200); // Else fade out the arrow
-  }
-});
-$('#scroll-button').click(function() {
-  // When arrow is clicked
-  $('body,html').animate(
-    {
-      scrollTop: 0 // Scroll to top of body
-    },
-    500
-  );
-});
+function scrollTop() {
+  window.scroll(function() {
+    if ($(this).scrollTop() >= 50) {
+      $('#scroll-button').fadeIn(500);
+    } else {
+      $('#scroll-button').fadeOut(500);
+    }
+  });
+
+  $('#scroll-button').click(function() {
+    $('body, html').animate(
+      {
+        scrollTop: 0
+      },
+      500
+    );
+  });
+}
 
 $(watchForm);

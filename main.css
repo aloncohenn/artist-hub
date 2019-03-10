@@ -16,12 +16,12 @@ body {
 }
 
 h1 {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Coustard', serif;
 }
 
 header h1 {
   font-size: 7rem;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
   color: #fff;
 }
@@ -99,11 +99,13 @@ form {
   border: none;
 }
 
-.form button:hover {
+.form button:hover,
+.form button:focus {
   background-color: #167ff5;
   font-size: 1.9rem;
   font-weight: bold;
   color: #fff;
+  border: 2px solid #fff;
   transition: all 0.4s ease;
 }
 
