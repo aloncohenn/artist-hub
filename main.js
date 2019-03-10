@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-const googleAPIKey = 'AIzaSyB-SKgEOTobvCFVQv15z7JL4uLtX427sVE';
+const googleAPIKey = 'AIzaSyBPOIONsGwmyDiCNpKMRLR6i8jtklkoCbE';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -41,7 +41,7 @@ function scrollDown() {
 }
 
 function generateArtistHeader(inputVal) {
-  $('#header').html(`
+  $('#artist-header').html(`
     <h1>${inputVal.toUpperCase()}</h1>
   `);
 }
@@ -74,7 +74,7 @@ function searchWiki(inputVal) {
         inputVal += ' (band)';
         disambiguationFetch(inputVal);
       }
-      displayWikiInfo(responseJson);
+      displayWikiInfo(responseJson, inputVal);
     })
     .catch(error => renderHelpPage());
 }
@@ -89,18 +89,22 @@ function disambiguationFetch(inputVal) {
       }
       throw new error(response.statusText);
     })
-    .then(responseJson => displayWikiInfo(responseJson))
+    .then(responseJson => displayWikiInfo(responseJson, inputVal))
     .catch(error => renderHelpPage());
 }
 
-function displayWikiInfo(responseJson) {
+function displayWikiInfo(responseJson, inputVal) {
   let results = `
   <img src="img/wikipedia.png" alt="wikipedia logo" id="wiki-logo">
-  <img src="${responseJson.originalimage.source}">
-  <p>${responseJson.extract}</p>
+  <div id="js-wiki-flex">
+    <img src="${
+      responseJson.originalimage.source
+    }" alt="image of ${inputVal}" id="bio-image">
+    <p>${responseJson.extract}</p>
+  </div>
 `;
 
-  $('#wiki-flex').html(results);
+  $('#wiki-results').html(results);
 }
 
 // YouTube API
@@ -113,6 +117,12 @@ function searchYouTube(inputVal) {
     type: 'video',
     key: googleAPIKey
   };
+
+  // const options = {
+  //   headers: new Headers({
+  //     key: googleAPIKey
+  //   })
+  // };
 
   const searchYouTubeURL = 'https://www.googleapis.com/youtube/v3/search';
   const queryString = formatQueryParams(params);
@@ -145,7 +155,7 @@ function displayYouTube(responseJson) {
 function searchTicketMasterAPI(inputVal) {
   const params = {
     keyword: inputVal,
-    size: 5,
+    size: 6,
     apikey: ticketmasterAPIKey
   };
 
@@ -174,7 +184,8 @@ function displayTicketMaster(responseJson) {
     return `
     <li>
       <h3>${element.name}</h3>
-      <img src="${element.images[0].url}">
+      <img src="${element.images[0].url}" alt="event image" class="flex-image">
+      <br>
       <a href="${element.url}">Link to event</a>
       <p>${element._embedded.venues[0].city.name}, ${
       element._embedded.venues[0].country.name
@@ -183,7 +194,7 @@ function displayTicketMaster(responseJson) {
     `;
   });
 
-  $('#ticketmaster-ul').html(results);
+  $('#ticketmaster-flex').html(results);
 }
 
 function renderTicketmasterError() {
@@ -261,16 +272,18 @@ function displayNews(finalResults) {
       if (element.content === null) {
         return `
         <li>
-        <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image">
+        <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
           <h3>${element.title}</h3>
-          <a href="${element.url}" target="_blank">Go to Article</a>
+          <a href="${
+            element.url
+          }" target="_blank" class="flex-image">Go to Article</a>
           <p>was null</p>
         </li>
         `;
       }
       return `
         <li>
-          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image">
+          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
           <h3>${element.title}</h3>
           <a href="${element.url}" target="_blank">Go to Article</a>
           <p>${element.content}</p>
@@ -281,7 +294,7 @@ function displayNews(finalResults) {
     if (element.content === null) {
       return `
       <li>
-        <img src="${element.urlToImage}" alt="article image">
+        <img src="${element.urlToImage}" alt="article image" class="flex-image">
         <h3>${element.title}</h3>
         <a href="${element.url}" target="_blank">Go to Article</a>
         <p>was null</p>
@@ -291,7 +304,7 @@ function displayNews(finalResults) {
 
     return `
     <li>
-      <img src="${element.urlToImage}" alt="article image">
+      <img src="${element.urlToImage}" alt="article image" class="flex-image">
       <h3>${element.title}</h3>
       <a href="${element.url}" target="_blank">Go to Article</a>
       <p>${element.content}</p>
@@ -299,7 +312,7 @@ function displayNews(finalResults) {
     `;
   });
 
-  $('#js-news-results').html(htmlContent);
+  $('#news-flex').html(htmlContent);
 }
 
 function renderHelpPage() {
@@ -417,6 +430,7 @@ function navClicks() {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').show();
+    $('#ticketmaster-results').css('display', 'flex');
     $('#music-links').hide();
     $('#artist-news').hide();
   });
@@ -435,6 +449,7 @@ function navClicks() {
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
     $('#artist-news').show();
+    $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
   });
 }

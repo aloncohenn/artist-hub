@@ -23,8 +23,7 @@ h1 {
 header h1 {
   font-size: 5rem;
   text-align: center;
-  margin-top: 100px;
-  color: white;
+  color: #fff;
 }
 
 header p {
@@ -90,7 +89,7 @@ form {
   font-size: 1.25rem;
   width: 250px;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   width: 400px;
   margin-bottom: 2rem;
 }
@@ -107,19 +106,25 @@ form {
   border: 1px solid #008000;
   background-color: #008000;
   font-weight: bold;
-  color: white;
+  color: #fff;
 }
 
 /* Main */
 
 #main h1 {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
 #main {
-  height: 100vh;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)),
     url(img/home-background.jpg);
+  background-size: cover;
+  background-position: 15% 0%;
+  background-attachment: scroll;
+  padding: 20px 0;
+  box-shadow: 0 0 10px black; */
+  background-color: rgb(182, 182, 182);
 }
 
 #navigation {
@@ -134,7 +139,9 @@ form {
   font-size: 2rem;
   text-decoration: none;
   border: 3px solid #fff;
-  border-radius: 4px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
 }
 
 #navigation a:hover {
@@ -147,21 +154,118 @@ form {
   color: black;
 }
 
-#header {
-  margin-top: 50px;
+section {
+  background-color: black;
+  color: #fff;
+  border-radius: 8px;
+}
+
+#artist-header {
+  background-color: rgb(182, 182, 182);
   text-align: center;
   font-size: 2rem;
+  max-width: 960px;
+  margin: 10px auto;
+  border-radius: 8px;
+}
+
+/* Wiki styling */
+
+#wiki-results {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+#js-wiki-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: left;
+}
+
+#wiki-logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+#bio-image {
+  height: 200px;
+  border-radius: 8px;
+}
+
+#js-wiki-flex p {
+  max-width: 400px;
+}
+
+/* Ticketmaster styling */
+
+#ticketmaster-results {
+  max-width: 960px;
+  margin: 0 auto;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 20px;
+}
+
+#ticketmaster-flex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+#ticketmaster-flex li {
+  width: 33.333333%;
+}
+
+#ticketmaster-logo {
+  height: 100px;
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.flex-image {
+  width: 280px;
+  max-width: 100%;
+  max-height: 280px;
+}
+
+/* News */
+
+#artist-news {
+  max-width: 960px;
+  margin: 0 auto;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 20px;
+}
+
+#news-flex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  color: #fff;
+}
+
+#news-flex li {
+  width: 33.333333%;
+  margin-bottom: 50px;
+}
+
+footer {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 1.2rem;
+  margin-top: 40px;
 }
 
 .hidden {
   display: none;
-}
-
-img {
-  height: 80px;
-}
-
-section {
-  /* border: 2px solid #2f97c1; */
-  margin: 10px;
 }

@@ -44,40 +44,38 @@
 
     <main role="main" class="hidden" id="main">
       <nav id="navigation">
-        <a href="wiki-results" id="wiki-results-nav">Wikipedia</a>
-        <a href="youtube-results" id="youtube-results-nav">Youtube</a>
-        <a href="ticketmaster-results"id="ticketmaster-results-nav">Ticketmaster</a>
-        <a href="music-links" id="music-links-nav">Social Media</a>
-        <a href="artist-news" id="artist-news-nav">News</a>
+        <a href="#wiki-results" id="wiki-results-nav">Wikipedia</a>
+        <a href="#youtube-results" id="youtube-results-nav">Youtube</a>
+        <a href="#ticketmaster-results"id="ticketmaster-results-nav">Ticketmaster</a>
+        <a href="#music-links" id="music-links-nav">Social Media</a>
+        <a href="#artist-news" id="artist-news-nav">News</a>
       </nav>
-      <section id="header"></section>
-      <section id="wiki-results">
-        <div id="wiki-flex"></div>
-      </section>
+      <section id="artist-header"></section>
+      <section id="wiki-results"></section>
       <section id="youtube-results" class="hidden nav-item">
-        <div id="youtube-flex">
           <img src="img/youtube.png" alt="youtube logo" id="youtube-logo">
-          <ul id="youtube-ul"></ul>
-        </div>
+          <ul id="youtube-flex"></ul>
       </section>
       <section id="ticketmaster-results" class="hidden nav-item">
         <img src="img/ticketmaster.png" alt="ticketmaster logo" id="ticketmaster-logo">
-        <div id="ticketmaster-flex">
-          <ul id="ticketmaster-ul"></ul>
-        </div>
+          <ul id="ticketmaster-flex"></ul>
       </section>
       <section id="music-links" class="hidden nav-item">
         <h3>Music Profiles</h3>
         <ul id="js-links-results"></ul>
       </section>
       <section id="artist-news" class="hidden nav-item">
-        <ul id="js-news-results">
+        <ul id="news-flex">
         </ul>
       </section>
+      <footer>
+        <p>Built by: @cohencodes @jonespi</p>
+      </footer>
     </main>
 
     <section id="help-page" class="hidden"></section>
 
+    
 
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
