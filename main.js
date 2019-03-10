@@ -399,7 +399,6 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
         `);
       }
     }
-    console.log(html);
     html.push(
       `<li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank"><i class="fab fa-spotify"></i></a></li>`
     );
@@ -457,5 +456,55 @@ function navClicks() {
     $('#help-page').hide();
   });
 }
+
+const searchEx = [
+  'Want some suggestions?',
+  'Post Malone',
+  'Drake',
+  'Cardi B',
+  'John Mayer',
+  'The Beatles',
+  'Taylor Swift',
+  'Eminem',
+  'Ed Sheeran',
+  'Rihanna',
+  'Bruno Mars',
+  'Travis Scott',
+  'Camilla Cabello',
+  'Adele',
+  'Justin Bieber'
+];
+setInterval(function() {
+  $('input#search').click(function() {
+    $(this).data('clicked', true);
+  });
+
+  if ($('input#search').data('clicked')) {
+    return;
+  }
+
+  $('input#search').attr(
+    'placeholder',
+    searchEx[searchEx.push(searchEx.shift()) - 1]
+  );
+}, 1500);
+
+$(window).scroll(function() {
+  if ($(this).scrollTop() >= 50) {
+    // If page is scrolled more than 50px
+    $('#scroll-button').fadeIn(200); // Fade in the arrow
+  } else {
+    $('#scroll-button').fadeOut(200); // Else fade out the arrow
+  }
+});
+$('#scroll-button').click(function() {
+  // When arrow is clicked
+  $('body,html').animate(
+    {
+      scrollTop: 0 // Scroll to top of body
+    },
+    500
+  );
+});
 
 $(watchForm);
