@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-const googleAPIKey = 'AIzaSyBPOIONsGwmyDiCNpKMRLR6i8jtklkoCbE';
+const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -118,12 +118,6 @@ function searchYouTube(inputVal) {
     key: googleAPIKey
   };
 
-  // const options = {
-  //   headers: new Headers({
-  //     key: googleAPIKey
-  //   })
-  // };
-
   const searchYouTubeURL = 'https://www.googleapis.com/youtube/v3/search';
   const queryString = formatQueryParams(params);
   const url = searchYouTubeURL + '?' + queryString;
@@ -138,7 +132,8 @@ function displayYouTube(responseJson) {
   let results = responseJson['items'].map(element => {
     return `
       <li id="js-youtube-video">
-        <img src="${element.snippet.thumbnails.medium.url}">
+        <img src="${element.snippet.thumbnails.medium.url}" class="flex-image">
+        <br>
         <a href="http://youtube.com/watch?v=${
           element.id.videoId
         }" target="_blank"><i class="fab fa-youtube"></i></a>
@@ -147,7 +142,7 @@ function displayYouTube(responseJson) {
       `;
   });
 
-  $('#youtube-ul').html(results);
+  $('#youtube-flex').html(results);
 }
 
 // Ticketmaster API

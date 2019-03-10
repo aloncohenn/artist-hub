@@ -202,7 +202,8 @@ section {
 
 /* Ticketmaster styling */
 
-#ticketmaster-results {
+#ticketmaster-results,
+#youtube-results {
   max-width: 960px;
   margin: 0 auto;
   flex-flow: row wrap;
@@ -211,17 +212,20 @@ section {
   padding: 20px;
 }
 
-#ticketmaster-flex {
+#ticketmaster-flex,
+#youtube-flex {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 }
 
-#ticketmaster-flex li {
+#ticketmaster-flex li,
+#youtube-flex li {
   width: 33.333333%;
 }
 
-#ticketmaster-logo {
+#ticketmaster-logo,
+#youtube-logo {
   height: 100px;
   width: 200px;
   margin-bottom: 20px;
