@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-// const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
+const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -28,7 +28,7 @@ function mainHandler(inputVal) {
   generateArtistHeader(inputVal);
   searchWiki(inputVal);
   searchTicketMasterAPI(inputVal);
-  // searchYouTube(inputVal);
+  searchYouTube(inputVal);
   searchNewsAPI(inputVal);
   scrollTop();
 }
@@ -335,7 +335,7 @@ function renderHelpPage() {
     <h1>No results for this search</h1>
   `;
 
-  $('#wiki-flex').html(wikiErrorMessage);
+  $('#wiki-results').html(wikiErrorMessage);
 }
 
 // Social Media Links
