@@ -10,6 +10,7 @@ function watchForm() {
     $('main').removeClass('hidden');
     scrollDown();
     navClicks();
+    navSelector();
   });
 }
 
@@ -466,6 +467,49 @@ function navClicks() {
     $('#artist-news').fadeIn(600);
     $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
+  });
+}
+
+function navSelector() {
+  $('#wiki-results-nav').on('click', function(event) {
+    $('#wiki-results-nav').addClass('selected');
+    $('#youtube-results-nav').removeClass('selected');
+    $('#ticketmaster-results-nav').removeClass('selected');
+    $('#music-links-nav').removeClass('selected');
+    $('#artist-news-nav').removeClass('selected');
+  });
+
+  $('#youtube-results-nav').on('click mouseover', function(event) {
+    $('#wiki-results-nav').removeClass('selected');
+    $('#youtube-results-nav').addClass('selected');
+    $('#ticketmaster-results-nav').removeClass('selected');
+    $('#music-links-nav').removeClass('selected');
+    $('#artist-news-nav').removeClass('selected');
+  });
+
+  $('#ticketmaster-results-nav').on('click mouseover', function(event) {
+    $('#wiki-results-nav').removeClass('selected');
+    $('#youtube-results-nav').removeClass('selected');
+    $('#ticketmaster-results-nav').addClass('selected');
+    $('#music-links-nav').removeClass('selected');
+    $('#artist-news-nav').removeClass('selected');
+  });
+
+  $('#music-links-nav').on('click mouseover', function(event) {
+    $('#wiki-results-nav').removeClass('selected');
+    $('#youtube-results-nav').removeClass('selected');
+    $('#ticketmaster-results-nav').removeClass('selected');
+    $('#music-links-nav').addClass('selected');
+    $('#artist-news-nav').removeClass('selected');
+  });
+
+  $('#artist-news-nav').on('click mouseover', function(event) {
+    $('#wiki-results-nav').removeClass('selected');
+    $('#youtube-results-nav').removeClass('selected');
+    $('#ticketmaster-results-nav').removeClass('selected');
+    $('#music-links-nav').removeClass('selected');
+    $('#artist-news-nav').addClass('selected');
+    $('#help-page-nav').removeClass('selected');
   });
 }
 

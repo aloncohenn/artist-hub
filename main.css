@@ -135,7 +135,7 @@ form {
   height: auto;
 }
 
-#navigation a {
+.nav-button {
   margin-bottom: 10px;
   padding: 10px;
   font-size: 2rem;
@@ -147,16 +147,14 @@ form {
   color: #fff;
 }
 
-#navigation a:hover,
-#navigation a:focus,
-#navigation a:active {
+.nav-button:hover {
   background-color: #167ff5;
   color: black;
   transition: all 0.4s ease;
 }
 
-#navigation a:active {
-  background-color: #fff;
+.selected {
+  background-color: #167ff5;
   color: black;
 }
 
