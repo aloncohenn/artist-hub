@@ -79,7 +79,7 @@ form {
 
 .form input {
   font-size: 1.5rem;
-  width: 250px;
+  width: 60%;
   padding: 10px;
   border: 3px solid #a419dc;
   border-radius: 8px;
@@ -132,7 +132,7 @@ form {
     url(img/home-background-main.jpg);
   background-size: 500px;
   background-position: right 0 bottom 160px;
-  height: 100px;
+  height: auto;
 }
 
 #navigation a {
@@ -187,7 +187,7 @@ section {
 
 #js-wiki-flex {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
   text-align: left;
@@ -206,8 +206,9 @@ section {
 }
 
 #bio-image {
-  height: 200px;
+  height: 250px;
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 #js-wiki-flex p {
@@ -313,7 +314,8 @@ section {
 
 #news-flex li {
   width: 33.333333%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  margin-left: 2px;
 }
 
 #news-flex h3 {
@@ -460,6 +462,52 @@ footer a:focus {
   background-color: #fff;
   color: black;
   transition: 0.4s ease;
+}
+
+@media only screen and (max-width: 760px) {
+  header h1 {
+    font-size: 4rem;
+  }
+
+  header p {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+
+  #navigation a {
+    font-size: 2rem;
+  }
+
+  #artist-header {
+    font-size: 2rem;
+  }
+
+  i {
+    font-size: 3.8rem;
+  }
+
+  i:hover,
+  i:focus {
+    font-size: 4rem;
+  }
+
+  #js-wiki-flex p {
+    font-size: 1rem;
+  }
+
+  #ticketmaster-flex,
+  #youtube-flex {
+    padding: 10px;
+  }
+
+  #ticketmaster-flex li,
+  #youtube-flex li,
+  #news-flex li {
+    width: 42%;
+  }
+  #youtube-play-button {
+    font-size: 1rem;
+  }
 }
 
 .hidden {

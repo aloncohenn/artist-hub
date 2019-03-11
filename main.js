@@ -113,7 +113,7 @@ function displayWikiInfo(responseJson, inputVal) {
 function searchYouTube(inputVal) {
   const params = {
     part: 'snippet',
-    maxResults: 3,
+    maxResults: 6,
     q: inputVal,
     type: 'video',
     key: googleAPIKey
