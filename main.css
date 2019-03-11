@@ -148,7 +148,8 @@ form {
 }
 
 .nav-button:hover,
-.nav-button:active {
+.nav-button:active,
+.nav-button:focus {
   background-color: #167ff5;
   color: black;
   transition: all 0.4s ease;

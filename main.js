@@ -217,8 +217,8 @@ function renderSocialLinksError(inputVal) {
   const socialLinksError = `
     <h1>No artist for this search</h1>
     <p>Unfortunately, there are no profiles associated with your search.</p>
-    <li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank">Spotify Search</a></li>
-    <li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank">Soundcloud Search</a></li>`;
+    <li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank"><i class="fab fa-spotify"></i></a></li>
+    <li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank"><i class="fab fa-soundcloud"></i></a></li>`;
 
   $('#js-links-results').html(socialLinksError);
 }
@@ -301,16 +301,16 @@ function displayNews(finalResults) {
     `;
   });
 
-  if (htmlContent.length === 0) {
+  $('#news-flex').html(htmlContent);
+  
+  if (finalResults.length === 0) {
     renderNewsError();
   }
-
-  $('#news-flex').html(htmlContent);
 }
 
 function renderNewsError() {
   const newsError = `
-    <h1>No news articles available for this search</h1>
+    <h2>No news articles available for this search</h2>
     <p>Unfortunately, there are no recent articles available for your search.</p>
     `;
 
@@ -339,6 +339,7 @@ function renderHelpPage() {
 }
 
 // Social Media Links
+
 function displaySocialLinks(responseJson, inputVal) {
   let target = checkAttractionsArray(responseJson, inputVal); //confirms that the target has externalLinks and is the artist name
   createSocialArrays(target); //creates and returns two arrays for links and the network names
@@ -409,6 +410,7 @@ function navClicks() {
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
     $('#artist-news').hide();
+    scrollDown();
   });
 
   $('#youtube-results-nav').on('click', function(event) {
@@ -417,6 +419,7 @@ function navClicks() {
     $('#ticketmaster-results').hide();
     $('#music-links').hide();
     $('#artist-news').hide();
+    scrollDown();
   });
 
   $('#ticketmaster-results-nav').on('click', function(event) {
@@ -426,6 +429,7 @@ function navClicks() {
     $('#ticketmaster-results').css('display', 'flex');
     $('#music-links').hide();
     $('#artist-news').hide();
+    scrollDown();
   });
 
   $('#music-links-nav').on('click', function(event) {
@@ -434,6 +438,7 @@ function navClicks() {
     $('#ticketmaster-results').hide();
     $('#music-links').fadeIn(600);
     $('#artist-news').hide();
+    scrollDown();
   });
 
   $('#artist-news-nav').on('click', function(event) {
@@ -444,6 +449,7 @@ function navClicks() {
     $('#artist-news').fadeIn(600);
     $('#artist-news').css('display', 'flex');
     $('#help-page').hide();
+    scrollDown();
   });
 }
 
