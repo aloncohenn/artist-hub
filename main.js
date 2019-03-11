@@ -1,5 +1,5 @@
 const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
-const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
+// const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
 function watchForm() {
@@ -17,7 +17,7 @@ function watchForm() {
 function generateCapitalString(inputVal) {
   let inputArray = inputVal.split(' ');
   inputArray = inputArray.map(word => {
-    return word.charAt(0).toUpperCase() + word.substr(1);
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
   });
 
   inputVal = inputArray.join(' ');
@@ -28,7 +28,7 @@ function mainHandler(inputVal) {
   generateArtistHeader(inputVal);
   searchWiki(inputVal);
   searchTicketMasterAPI(inputVal);
-  searchYouTube(inputVal);
+  // searchYouTube(inputVal);
   searchNewsAPI(inputVal);
   scrollTop();
 }
@@ -99,9 +99,7 @@ function displayWikiInfo(responseJson, inputVal) {
   let results = `
   <img src="img/wikipedia.png" alt="wikipedia logo" id="wiki-logo">
   <div id="js-wiki-flex">
-    <img src="${
-      responseJson.originalimage.source
-    }" alt="image of ${inputVal}" id="bio-image">
+    <img src="${responseJson.originalimage.source}" alt="image of ${inputVal}" id="bio-image">
     <p>${responseJson.extract}</p>
   </div>
 `;
@@ -142,9 +140,7 @@ function displayYouTube(responseJson) {
       <li id="js-youtube-video">
         <img src="${element.snippet.thumbnails.medium.url}" class="flex-image">
         <br>
-        <a href="http://youtube.com/watch?v=${
-          element.id.videoId
-        }" target="_blank" id="youtube-play-button"><i class="fab fa-youtube"></i></a>
+        <a href="http://youtube.com/watch?v=${element.id.videoId}" target="_blank" id="youtube-play-button"><i class="fab fa-youtube"></i></a>
         <h4>${element.snippet.title}</h4>
       </li>
       `;
@@ -193,15 +189,14 @@ function searchTicketMasterAPI(inputVal) {
 
 function displayTicketMaster(responseJson) {
   let results = responseJson['_embedded'].events.map(element => {
+
     return `
     <li>
-      <h2>${element.name}</h2>
+      <h2>${element.name} - ${element.dates.start.localDate.substr(5)}</h2>
       <img src="${element.images[0].url}" alt="event image" class="flex-image">
       <br>
       <a href="${element.url}">Event</a>
-      <p>${element._embedded.venues[0].city.name}, ${
-      element._embedded.venues[0].country.name
-    }</p>
+      <p>${element._embedded.venues[0].city.name}, ${element._embedded.venues[0].country.name}</p>
     </li>
     `;
   });
@@ -263,7 +258,7 @@ function searchNewsAPI(inputVal) {
 function filterNews(responseJson, inputVal) {
   let inputArray = inputVal.split(' ');
   inputArray = inputArray.map(word => {
-    return word.charAt(0).toUpperCase() + word.substr(1);
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
   });
 
   let results = responseJson['articles'].map(element => {
@@ -338,7 +333,6 @@ function renderNewsError() {
 function renderHelpPage() {
   const wikiErrorMessage = `
     <h1>No results for this search</h1>
-    <p>Please refer to our <a href="#help-page">Help Tips</a> to improve your results.</p>
   `;
 
   $('#wiki-flex').html(wikiErrorMessage);
@@ -352,17 +346,17 @@ function displaySocialLinks(responseJson, inputVal) {
   $('#js-links-results').html(results);
 }
 
-function checkAttractionsArray(responseJson, inputVal) {
-  let target = responseJson['_embedded'].events[0]['_embedded'].attractions;
+function checkAttractionsArray(responseJson, inputVal) { //Used when the event is a Music festival or has multiple artists
+  let target = responseJson['_embedded'].events[0]['_embedded'].attractions; //looks at the array of objects for the event
   let inputArray = inputVal.split(' ');
   inputArray = inputArray.map(word => {
-    return word.charAt(0).toUpperCase() + word.substr(1);
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
   });
   let inputName = inputArray.join(' ');
   for (let i = 0; i < target.length; i++) {
     if (target[i].externalLinks !== undefined && target[i].name === inputName) {
-      //when there are external links and the name matches the inputval
-      target = target[i]; //this is the correct object
+      //when there are external links and the name matches the inputVal
+      target = target[i]; //declares that this is the correct object
     }
   }
   return target;
@@ -372,14 +366,7 @@ function createSocialArrays(target) {
   networkResults = []; //name of the networks
   networkLinks = []; //actual links
   for (let prop in target.externalLinks) {
-    //loop through object keys
-    if (prop !== 'itunes') {
-      networkResults.push(prop.charAt(0).toUpperCase() + prop.substr(1));
-    } else {
-      networkResults.push(
-        prop.charAt(0) + prop.charAt(1).toUpperCase() + prop.substr(2)
-      );
-    }
+    networkResults.push(prop);
     networkLinks.push(target.externalLinks[prop][0].url); //pushes every link to array
   }
 
@@ -394,21 +381,11 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
     for (let i = 0; i < networkResults.length; i++) {
       if (networkResults[i].toLowerCase() === 'homepage') {
         html.push(`
-          <li><a href="${
-            networkLinks[i]
-          }" target="_blank"><i class="fas fa-globe"></i></i></a></li>
+          <li><a href="${networkLinks[i]}" target="_blank"><i class="fas fa-globe"></i></i></a></li>
         `);
-      } else if (
-        networkLinks[i] !== undefined &&
-        networkResults[i] !== 'Youtube' &&
-        networkResults[i] !== 'Wiki'
-      ) {
+      } else if (networkLinks[i] !== undefined && networkResults[i] !== 'youtube' && networkResults[i] !== 'wiki') {
         html.push(`
-          <li><a href="${
-            networkLinks[i]
-          }" target="_blank"><i class="fab fa-${networkResults[
-          i
-        ].toLowerCase()}"></i></a></li>
+          <li><a href="${networkLinks[i]}" target="_blank"><i class="fab fa-${networkResults[i].toLowerCase()}"></i></a></li>
         `);
       }
     }
@@ -426,7 +403,7 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
 // Main Page Event Listeners
 
 function navClicks() {
-  $('#wiki-results-nav').on('click mouseover', function(event) {
+  $('#wiki-results-nav').on('click', function(event) {
     $('#wiki-results').fadeIn(600);
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -434,7 +411,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#youtube-results-nav').on('click mouseover', function(event) {
+  $('#youtube-results-nav').on('click', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').fadeIn(600);
     $('#ticketmaster-results').hide();
@@ -442,7 +419,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#ticketmaster-results-nav').on('click mouseover', function(event) {
+  $('#ticketmaster-results-nav').on('click', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').fadeIn(600);
@@ -451,7 +428,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#music-links-nav').on('click mouseover', function(event) {
+  $('#music-links-nav').on('click', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -459,7 +436,7 @@ function navClicks() {
     $('#artist-news').hide();
   });
 
-  $('#artist-news-nav').on('click mouseover', function(event) {
+  $('#artist-news-nav').on('click', function(event) {
     $('#wiki-results').hide();
     $('#youtube-results').hide();
     $('#ticketmaster-results').hide();
@@ -479,7 +456,7 @@ function navSelector() {
     $('#artist-news-nav').removeClass('selected');
   });
 
-  $('#youtube-results-nav').on('click mouseover', function(event) {
+  $('#youtube-results-nav').on('click', function(event) {
     $('#wiki-results-nav').removeClass('selected');
     $('#youtube-results-nav').addClass('selected');
     $('#ticketmaster-results-nav').removeClass('selected');
@@ -487,7 +464,7 @@ function navSelector() {
     $('#artist-news-nav').removeClass('selected');
   });
 
-  $('#ticketmaster-results-nav').on('click mouseover', function(event) {
+  $('#ticketmaster-results-nav').on('click', function(event) {
     $('#wiki-results-nav').removeClass('selected');
     $('#youtube-results-nav').removeClass('selected');
     $('#ticketmaster-results-nav').addClass('selected');
@@ -495,7 +472,7 @@ function navSelector() {
     $('#artist-news-nav').removeClass('selected');
   });
 
-  $('#music-links-nav').on('click mouseover', function(event) {
+  $('#music-links-nav').on('click', function(event) {
     $('#wiki-results-nav').removeClass('selected');
     $('#youtube-results-nav').removeClass('selected');
     $('#ticketmaster-results-nav').removeClass('selected');
@@ -503,13 +480,12 @@ function navSelector() {
     $('#artist-news-nav').removeClass('selected');
   });
 
-  $('#artist-news-nav').on('click mouseover', function(event) {
+  $('#artist-news-nav').on('click', function(event) {
     $('#wiki-results-nav').removeClass('selected');
     $('#youtube-results-nav').removeClass('selected');
     $('#ticketmaster-results-nav').removeClass('selected');
     $('#music-links-nav').removeClass('selected');
     $('#artist-news-nav').addClass('selected');
-    $('#help-page-nav').removeClass('selected');
   });
 }
 
