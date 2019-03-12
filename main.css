@@ -9,14 +9,7 @@ html {
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
-}
-
-body {
   font-family: 'Raleway', sans-serif;
-}
-
-h1 {
-  font-family: 'Coustard', serif;
 }
 
 header h1 {
@@ -30,15 +23,15 @@ header p {
   text-align: center;
   margin-top: 25px;
   font-size: 2rem;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
   color: #fff;
 }
 
 .home-container {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2)),
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4)),
     url(img/home-background-main.jpg);
   background-size: cover;
-  background-position: 15% 0%;
+  background-position: top 100px left 0;
   background-attachment: scroll;
   padding: 20px 0;
   box-shadow: 0 0 10px black;
@@ -83,11 +76,10 @@ form {
   padding: 10px;
   border: 3px solid #a419dc;
   border-radius: 8px;
-  width: 400px;
   margin-bottom: 2rem;
 }
 
-.form button {
+#submit-button {
   font-size: 2rem;
   font-weight: bold;
   height: 130px;
@@ -99,8 +91,8 @@ form {
   border: none;
 }
 
-.form button:hover,
-.form button:focus {
+#submit-button:hover,
+#submit-button:focus {
   background-color: #167ff5;
   font-size: 1.9rem;
   font-weight: bold;
@@ -140,7 +132,6 @@ form {
   padding: 10px;
   font-size: 2rem;
   text-decoration: none;
-  /* border: 3px solid black; */
   border-radius: 8px;
   text-decoration: none;
   background-color: #141414;
@@ -148,16 +139,8 @@ form {
 }
 
 .nav-button:hover,
-.nav-button:active,
 .nav-button:focus {
-  background-color: #167ff5;
-  color: black;
   transition: all 0.4s ease;
-}
-
-.selected {
-  background-color: #167ff5;
-  color: black;
 }
 
 section {
@@ -168,12 +151,14 @@ section {
 #artist-header {
   background: #141414;
   color: #ffd702;
-  font-size: 4rem;
-  letter-spacing: 1px;
   max-width: 960px;
   border-radius: 8px;
   margin: 0 auto;
   text-align: center;
+}
+
+#artist-header h1 {
+  font-size: 3rem;
 }
 
 /* Wiki styling */
@@ -195,7 +180,7 @@ section {
   color: black;
   font-weight: bold;
   font-size: 1.25rem;
-  padding: 50px;
+  padding: 18px;
   border-radius: 8px;
   letter-spacing: 1px;
 }
@@ -308,7 +293,7 @@ section {
 #news-flex {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   color: #fff;
 }
 
@@ -391,6 +376,36 @@ section {
   color: #f5550d;
 }
 
+.current-purple,
+#wiki-results-nav:hover,
+#wiki-results-nav:focus {
+  background-color: #a419dc;
+}
+
+.current-red,
+#youtube-results-nav:hover,
+#youtube-results-nav:focus {
+  background-color: #e10406;
+}
+
+.current-green,
+#ticketmaster-results-nav:hover,
+#ticketmaster-results-nav:focus {
+  background-color: #62e843;
+}
+
+.current-blue,
+#music-links-nav:hover,
+#music-links-nav:focus {
+  background-color: #167ff5;
+}
+
+.current-orange,
+#artist-news-nav:hover,
+#artist-news-nav:focus {
+  background-color: #f5550d;
+}
+
 footer {
   position: fixed;
   left: 0px;
@@ -441,7 +456,7 @@ footer a:focus {
   z-index: 99;
   border: none;
   outline: none;
-  background-color: black;
+  background-color: #a419dc;
   color: #fff;
   cursor: pointer;
   padding: 15px;
@@ -450,8 +465,8 @@ footer a:focus {
 
 #scroll-button i {
   font-size: 2rem;
-  background-color: black;
-  color: #ffd702;
+  background-color: #a419dc;
+  color: #fff;
   border-radius: 50%;
 }
 
@@ -459,14 +474,14 @@ footer a:focus {
 #scroll-button i:hover,
 #scroll-button:focus,
 #scroll-button i:focus {
-  background-color: #fff;
-  color: black;
+  background-color: #167ff5;
+  color: #fff;
   transition: 0.4s ease;
 }
 
 @media only screen and (max-width: 760px) {
   header h1 {
-    font-size: 4rem;
+    font-size: 3.2rem;
   }
 
   header p {
@@ -474,12 +489,21 @@ footer a:focus {
     padding: 10px;
   }
 
-  #navigation a {
-    font-size: 2rem;
+  form {
+    margin-top: 25px;
+  }
+
+  .nav-button {
+    font-size: 1.25rem;
+  }
+
+  #submit-button {
+    height: 100px;
+    width: 100px;
   }
 
   #artist-header {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
 
   i {
@@ -507,6 +531,10 @@ footer a:focus {
   }
   #youtube-play-button {
     font-size: 1rem;
+  }
+
+  #music-links a {
+    margin: 38px;
   }
 }
 
