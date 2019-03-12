@@ -2,58 +2,6 @@ const newsAPIKey = '5b6186a62be04ae9bb3a8bfeb2572a5b';
 const googleAPIKey = 'AIzaSyAWP2A6DGhGCUR15wfo2Y8HP0ij5mSIllA';
 const ticketmasterAPIKey = 'GoG04vFo4immj2OMRsYDechobghqGcFw';
 
-function watchForm() {
-  $('form').submit(event => {
-    event.preventDefault();
-    let inputVal = $('input[type="text"]').val();
-    mainHandler(inputVal);
-    $('main').removeClass('hidden');
-    scrollDown();
-    navClicks();
-    navSelector();
-  });
-}
-
-function generateCapitalString(inputVal) {
-  let inputArray = inputVal.split(' ');
-  inputArray = inputArray.map(word => {
-    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-  });
-
-  inputVal = inputArray.join(' ');
-  return inputVal;
-}
-
-function mainHandler(inputVal) {
-  transitionMain();
-  generateArtistHeader(inputVal);
-  searchWiki(inputVal);
-  searchTicketMasterAPI(inputVal);
-  searchYouTube(inputVal);
-  searchNewsAPI(inputVal);
-  scrollTop();
-}
-
-function transitionMain() {
-  $('.info').addClass('hidden');
-  $('.home-container').css('height', '80vh');
-}
-
-function scrollDown() {
-  $('html,body').animate(
-    {
-      scrollTop: $('#main').offset().top
-    },
-    400
-  );
-}
-
-function generateArtistHeader(inputVal) {
-  $('#artist-header').html(`
-     <h1>${inputVal.toUpperCase()}</h1>
-  `);
-}
-
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(
     key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
@@ -84,7 +32,7 @@ function searchWiki(inputVal) {
       }
       displayWikiInfo(responseJson, inputVal);
     })
-    .catch(error => renderHelpPage());
+    .catch(renderWikiError);
 }
 
 function disambiguationFetch(inputVal) {
@@ -98,7 +46,7 @@ function disambiguationFetch(inputVal) {
       throw new error(response.statusText);
     })
     .then(responseJson => displayWikiInfo(responseJson, inputVal))
-    .catch(error => renderHelpPage());
+    .catch(renderWikiError);
 }
 
 function displayWikiInfo(responseJson, inputVal) {
@@ -131,7 +79,13 @@ function searchYouTube(inputVal) {
   const url = searchYouTubeURL + '?' + queryString;
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new error(response.statusText);
+      }
+    })
     .then(responseJson => {
       if (responseJson['items'].length === 0) {
         renderYouTubeError();
@@ -139,14 +93,14 @@ function searchYouTube(inputVal) {
         displayYouTube(responseJson);
       }
     })
-    .catch(error => renderYouTubeError());
+    .catch(renderYouTubeError);
 }
 
 function displayYouTube(responseJson) {
   let results = responseJson['items'].map(element => {
     return `
       <li id="js-youtube-video">
-        <img src="${element.snippet.thumbnails.medium.url}" class="flex-image">
+        <img src="${element.snippet.thumbnails.medium.url}" class="flex-image-youtube">
         <br>
         <a href="http://youtube.com/watch?v=${
           element.id.videoId
@@ -157,15 +111,6 @@ function displayYouTube(responseJson) {
   });
 
   $('#youtube-flex').html(results);
-}
-
-function renderYouTubeError() {
-  const youTubeErrorMessage = `
-    <h1>No videos for this search</h1>
-    <p>Unfortunately, there are no videos associated with your search.</p>
-  `;
-
-  $('#youtube-flex').html(youTubeErrorMessage);
 }
 
 // Ticketmaster API
@@ -182,7 +127,13 @@ function searchTicketMasterAPI(inputVal) {
   const url = ticketmasterURL + '?' + queryString;
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new error(response.statusText);
+      }
+    })
     .then(responseJson => {
       if (responseJson['_embedded'] === undefined) {
         throw new error(response.statusText);
@@ -191,18 +142,15 @@ function searchTicketMasterAPI(inputVal) {
         displaySocialLinks(responseJson, inputVal);
       }
     })
-    .catch(error => {
-      renderTicketmasterError();
-      renderSocialLinksError();
-    });
+    .catch(renderTicketmasterError, renderSocialLinksError());
 }
 
 function displayTicketMaster(responseJson) {
   let results = responseJson['_embedded'].events.map(element => {
     return `
     <li>
-      <h2>${element.name} - ${element.dates.start.localDate.substr(5)}</h2>
-      <img src="${element.images[0].url}" alt="event image" class="flex-image">
+      <h2>${element.name} : ${element.dates.start.localDate.substr(5)}</h2>
+      <img src="${element.images[0].url}" alt="event image" class="flex-image-ticketmaster">
       <br>
       <a href="${element.url}">Event</a>
       <p>${element._embedded.venues[0].city.name}, ${
@@ -213,25 +161,6 @@ function displayTicketMaster(responseJson) {
   });
 
   $('#ticketmaster-flex').html(results);
-}
-
-function renderTicketmasterError() {
-  const ticketmasterErrorMessage = `
-    <h1>No shows for this search</h1>
-    <p>Unfortunately, there are no upcoming shows.</p>
-  `;
-
-  $('#ticketmaster-flex').html(ticketmasterErrorMessage);
-}
-
-function renderSocialLinksError(inputVal) {
-  const socialLinksError = `
-    <h1>No artist for this search</h1>
-    <p>Unfortunately, there are no profiles associated with your search.</p>
-    <li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank"><i class="fab fa-spotify"></i></a></li>
-    <li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank"><i class="fab fa-soundcloud"></i></a></li>`;
-
-  $('#js-links-results').html(socialLinksError);
 }
 
 // News API
@@ -254,7 +183,13 @@ function searchNewsAPI(inputVal) {
   const url = searchNewsURL + '?' + queryString;
 
   fetch(url, options)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new error(response.statusText);
+      }
+    })
     .then(responseJson => {
       if (responseJson['totalResults'] === 0) {
         renderNewsError();
@@ -263,7 +198,7 @@ function searchNewsAPI(inputVal) {
         filterNews(responseJson, inputVal);
       }
     })
-    .catch(error => renderNewsError());
+    .catch(renderNewsError);
 }
 
 function filterNews(responseJson, inputVal) {
@@ -296,7 +231,7 @@ function displayNews(finalResults) {
     if (element.urlToImage === null) {
       return `
         <li>
-          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image">
+          <img src="https://d32ogoqmya1dw8.cloudfront.net/images/clean/nbc_news_logo.png" alt="article image" class="flex-image-news">
           <h3>${element.title}</h3>
           <a href="${element.url}" target="_blank">Go to Article</a>
         </li>
@@ -306,7 +241,7 @@ function displayNews(finalResults) {
     return `
     <li>
       <h3>${element.title}</h3>
-      <img src="${element.urlToImage}" alt="article image" class="flex-image">
+      <img src="${element.urlToImage}" alt="article image" class="flex-image-news">
       <a href="${element.url}" target="_blank">Article</a>
     </li>
     `;
@@ -319,37 +254,7 @@ function displayNews(finalResults) {
   }
 }
 
-function renderNewsError() {
-  const newsError = `
-    <h2>No news articles available for this search</h2>
-    <p>Unfortunately, there are no recent articles available for your search.</p>
-    `;
-
-  $('#news-flex').html(newsError);
-}
-
-// function trimTitle(finalResults) {
-//   let cloneArray = JSON.parse(JSON.stringify(finalResults));
-//   let titleArray = cloneArray.map(element => element['title'].split(' '));
-//   for (let i = 0; i < titleArray.length; i++) {
-//     if (titleArray.length > 8) {
-//       titleArray = titleArray.slice(0, 8);
-//       titleArray = titleArray.join('') + '...';
-//     }
-//   }
-//   console.log('titlearray', titleArray);
-//   return titleArray;
-// }
-
-function renderHelpPage() {
-  const wikiErrorMessage = `
-    <h1>No results for this search</h1>
-  `;
-
-  $('#wiki-results').html(wikiErrorMessage);
-}
-
-// Social Media Links
+// Social Media Profiles
 
 function displaySocialLinks(responseJson, inputVal) {
   let target = checkAttractionsArray(responseJson, inputVal); //confirms that the target has externalLinks and is the artist name
@@ -421,6 +326,54 @@ function combineSocialArrays(networkResults, networkLinks, inputVal) {
     html = html.join(''); //join the arrays items together
     return html;
   }
+}
+
+// Error Handling
+
+function renderWikiError() {
+  const wikiErrorMessage = `
+    <h1>No results for this search</h1>
+  `;
+
+  $('#wiki-results').html(wikiErrorMessage);
+}
+
+function renderYouTubeError() {
+  const youTubeErrorMessage = `
+    <h1>No videos for this search</h1>
+    <p>Unfortunately, there are no videos associated with your search.</p>
+  `;
+
+  $('#youtube-flex').html(youTubeErrorMessage);
+}
+
+function renderTicketmasterError() {
+  const ticketmasterErrorMessage = `
+    <h1>No shows for this search</h1>
+    <p>Unfortunately, there are no upcoming shows.</p>
+  `;
+
+  $('#ticketmaster-flex').html(ticketmasterErrorMessage);
+}
+
+function renderSocialLinksError(inputVal) {
+  console.log('renderSocialLinksError runs');
+  const socialLinksError = `
+    <h1>No artist for this search</h1>
+    <p>Unfortunately, there are no profiles associated with your search.</p>
+    <li><a href="https://open.spotify.com/search/results/${inputVal}" target="_blank"><i class="fab fa-spotify"></i></a></li>
+    <li><a href="https://soundcloud.com/search?q=${inputVal}" target="_blank"><i class="fab fa-soundcloud"></i></a></li>`;
+
+  $('#js-links-results').html(socialLinksError);
+}
+
+function renderNewsError() {
+  const newsError = `
+    <h2>No news articles available for this search</h2>
+    <p>Unfortunately, there are no recent articles available for your search.</p>
+    `;
+
+  $('#news-flex').html(newsError);
 }
 
 // Main Page Event Listeners
@@ -567,6 +520,59 @@ function scrollTop() {
       500
     );
   });
+}
+
+function watchForm() {
+  $('form').submit(event => {
+    event.preventDefault();
+    let inputVal = $('input[type="text"]').val();
+    mainHandler(inputVal);
+    $('main').removeClass('hidden');
+    scrollDown();
+    navClicks();
+    navSelector();
+  });
+}
+
+function generateCapitalString(inputVal) {
+  let inputArray = inputVal.split(' ');
+  inputArray = inputArray.map(word => {
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+  });
+
+  inputVal = inputArray.join(' ');
+  return inputVal;
+}
+
+function transitionMain() {
+  $('.info').addClass('hidden');
+  $('.home-container').css('height', '80vh');
+  $('#wiki-results-nav').addClass('current-purple');
+}
+
+function scrollDown() {
+  $('html,body').animate(
+    {
+      scrollTop: $('#main').offset().top
+    },
+    400
+  );
+}
+
+function generateArtistHeader(inputVal) {
+  $('#artist-header').html(`
+     <h1>${inputVal.toUpperCase()}</h1>
+  `);
+}
+
+function mainHandler(inputVal) {
+  transitionMain();
+  generateArtistHeader(inputVal);
+  searchWiki(inputVal);
+  searchTicketMasterAPI(inputVal);
+  searchYouTube(inputVal);
+  searchNewsAPI(inputVal);
+  scrollTop();
 }
 
 $(watchForm);

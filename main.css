@@ -271,12 +271,34 @@ section {
   transition: all 0.4s ease;
 }
 
-.flex-image {
+.flex-image-youtube {
   width: 280px;
   max-width: 100%;
   max-height: 280px;
   border-radius: 8px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 2.5px solid #fff;
+}
+
+.flex-image-ticketmaster {
+  width: 280px;
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  border: 2.5px solid #fff;
+}
+
+.flex-image-news {
+  width: 280px;
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  border: 2.5px solid #fff;
 }
 
 /* News */
