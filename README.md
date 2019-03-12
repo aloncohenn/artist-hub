@@ -1,6 +1,6 @@
 # Artist Hub
 
-### Live: https://cohencodes.github.io/artist-hub/
+## Live: https://cohencodes.github.io/artist-hub/
 
 Artist Hub is an application using multiple API's to generate the following information for an artist:
 
@@ -10,8 +10,8 @@ Artist Hub is an application using multiple API's to generate the following info
 - Upcoming Concerts/Events via TicketMaster
 - Social Media / Music Profiles
 
-**Screenshots**
-![Home Page](https://i.imgur.com/2UDAT97.png) ![YouTube Results](https://i.imgur.com/8nlNTNj.png)
+## Screenshots
+![Home Page](https://i.imgur.com/1ArfJgO.png) ![YouTube Results](https://i.imgur.com/ltOmkcW.png)
 
 Artist Hub uses the following API's:
 
@@ -20,7 +20,7 @@ Artist Hub uses the following API's:
 - YouTube API
 - TicketMaster API
 
-**Tech Stack**
+## Tech Stack
 
 - HTML
 - CSS

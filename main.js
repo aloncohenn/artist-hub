@@ -357,7 +357,6 @@ function renderTicketmasterError() {
 }
 
 function renderSocialLinksError(inputVal) {
-  console.log('renderSocialLinksError runs');
   const socialLinksError = `
     <h1>No artist for this search</h1>
     <p>Unfortunately, there are no profiles associated with your search.</p>
